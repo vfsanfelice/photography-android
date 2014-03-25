@@ -33,7 +33,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="@string/gallery"
-        android:onClick="openGallery"
         android:textSize="20sp" />
     
     <Button
@@ -44,8 +43,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="@string/maps"
-        android:onClick="openMap"
         android:textSize="20sp" />
-
 
 </RelativeLayout>
