@@ -36,7 +36,6 @@ public class MainActivity extends Activity {
             // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
         }
-		
 	}
 
 	@Override
