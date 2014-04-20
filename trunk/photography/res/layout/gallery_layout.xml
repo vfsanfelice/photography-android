@@ -4,12 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 	
-    <TextView 
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:text="Nome do Album será aqui"
-    	android:gravity="center"  
-    />
+    <TextView
+        android:id="@+id/textViewGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/galleryName" />
     
     <GridView
         android:id="@+id/gridView"
