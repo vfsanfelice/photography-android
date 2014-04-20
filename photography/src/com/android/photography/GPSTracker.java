@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
  
 public class GPSTracker extends Service implements LocationListener {
  
@@ -166,7 +165,6 @@ public class GPSTracker extends Service implements LocationListener {
  
     @Override
     public void onLocationChanged(Location location) {
-    	Toast.makeText(mContext, "onLocationChanged", Toast.LENGTH_SHORT).show();
     }
  
     @Override
