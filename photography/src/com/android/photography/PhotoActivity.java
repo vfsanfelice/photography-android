@@ -1,11 +1,11 @@
 package com.android.photography;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.io.OutputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,9 +14,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,21 +21,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.photography.webservice.VenuesList;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class PhotoActivity extends Activity {
 
 	// photo attributes
 	private static String photoLabel;
 	private static String photoPath;
-	private static String latitude;
-	private static String longitude;
-
-	// webservice attributes
-	private static String URLString = "https://api.foursquare.com/v2/venues/search?ll=%s,%2d"
-			+ "&oauth_token=3N1YYYFSO2FQVI00TNR1OTYS1C1FFTGBJGU3VWP4QMCCKG5K&v=20140220";
+	static Double latitude;
+	static Double longitude;
+	static String location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +52,13 @@ public class PhotoActivity extends Activity {
 		if (b != null) {
 			this.photoLabel = (String) b.get("photoLabel");
 			this.photoPath = (String) b.get("photoPath");
-			// this.latitude = (String) b.get("latitude");
-			// this.longitude = (String) b.get("longitude");
+			this.latitude = (Double) b.get("latitude");
+			this.longitude = (Double) b.get("longitude");
 		}
-
-		previewCapturedImage(this.photoPath, this.photoLabel);
-
+		previewCapturedImage(this.photoPath);
 	}
 
-	private void previewCapturedImage(String fileUri, String label) {
+	private void previewCapturedImage(String fileUri) {
 		try {
 			// imgPreview.setVisibility(View.VISIBLE);
 
@@ -75,22 +74,82 @@ public class PhotoActivity extends Activity {
 			ImageView photoPreview = (ImageView) findViewById(R.id.photoPreview);
 			photoPreview.setImageBitmap(bitmap);
 
-			TextView textLabel = (TextView) findViewById(R.id.legenda);
-			textLabel.setText(label);
+			new FoursquareAsyncTask().execute();
 
-			TextView locationLabel = (TextView) findViewById(R.id.location);
-			GPSTracker gpsTracker = new GPSTracker(this);
-			String latlong = "lat: " + gpsTracker.getLatitude() + " - long: "
-					+ gpsTracker.getLongitude();
-			locationLabel.setText(latlong);
+			if (null != tryToCreateFolder()) {
+			// TODO copy from IMAGE_DIRECTORY_NAME and move to location
+				
+			}
 
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public String tryToCreateFolder() {
+		String path = "";
+
+		// External sdcard location
+		File mediaStorageDir = new File(
+				Environment.getExternalStorageDirectory() + File.separator
+						+ MainActivity.IMAGE_DIRECTORY_NAME, location);
+
+		// Create the storage directory if it does not exist
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				Log.d(location, "Oops! Failed create " + location
+						+ " directory");
+				return null;
+			}
+
+			Log.i("checkForExistingFolder", location + " already exists!");
+		}
+
+		return mediaStorageDir.getAbsolutePath();
+	}
+
+	public boolean deleteFile(String path) {
+		try {
+			new File(path).delete();
+		}
+
+		catch (Exception ef) {
+			Log.e("Delete file", ef.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
+	/*
+	 * path = caminho do arquivo antigo a ser deletado, tem salvo no this.photoPath
+	 */
+	public boolean copyFile(String path) {
+		InputStream in = null;
+		OutputStream out = null;
+		String destiny = tryToCreateFolder();
+		
+		File file = new File(path);
+		String fileName = file.getName();
+
+		try {
+			in = new FileInputStream(path);
+			out = new FileOutputStream(destiny + File.separator + fileName);
+			
+			
+			
+			
+		} catch (Exception e) {
+
+		}
+
+		return true;
+	}
+
 	// chamada do servico
 	private class FoursquareAsyncTask extends AsyncTask<Void, Void, String> {
+
+		VenuesList venues = new VenuesList();
 
 		// pega o texto da httpentity
 		// poderia ser usado um BasicResponseHandler, passando como parametro o
@@ -117,22 +176,14 @@ public class PhotoActivity extends Activity {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpContext localContext = new BasicHttpContext();
 
-			/*
-			 * jeito feio de adicionar parametros na url
-			 * 
-			 * String insertParametersURL = String.format(URLString,
-			 * PhotoActivity.latitude, PhotoActivity.longitude);
-			 */
+			// webservice attributes
+			String URLString = "https://api.foursquare.com/v2/venues/search?ll="
+					+ PhotoActivity.latitude
+					+ ","
+					+ PhotoActivity.longitude
+					+ "&oauth_token=3N1YYYFSO2FQVI00TNR1OTYS1C1FFTGBJGU3VWP4QMCCKG5K&v=20140220";
 
-			// parametros para enviar no get do servico
-			HashMap<String, String> parameters = new HashMap<String, String>();
-			parameters.put("ll", "lat long");
-			parameters.put("oauth_token",
-					"3N1YYYFSO2FQVI00TNR1OTYS1C1FFTGBJGU3VWP4QMCCKG5K");
-			parameters.put("v", "~~");
-
-			// adiciona parametros na url
-			URLString = addParametersToURL(URLString, parameters);
+			Log.d("WS", URLString);
 
 			HttpGet httpGet = new HttpGet(URLString);
 
@@ -145,58 +196,28 @@ public class PhotoActivity extends Activity {
 
 				text = getASCIIContentFromEntity(entity);
 
+				Gson gson = new Gson();
+
+				JsonElement jelement = new JsonParser().parse(text);
+				JsonObject jobj = jelement.getAsJsonObject();
+				jobj = jobj.getAsJsonObject("response");
+
+				venues = gson.fromJson(jobj.toString(), VenuesList.class);
+
 			} catch (Exception e) {
 				return e.getLocalizedMessage();
 			}
 
-			return text;
+			return venues.getVenues().get(0).name;
 		}
 
 		@Override
 		protected void onPostExecute(String results) {
 			if (results != null) {
-				TextView tv = (TextView) findViewById(R.id.action_settings);
-
+				TextView tv = (TextView) findViewById(R.id.legenda);
 				tv.setText(results);
-
+				PhotoActivity.location = results;
 			}
-
-			Button b = (Button) findViewById(R.id.action_settings);
-
-			b.setClickable(true);
-		}
-
-		// TODO
-		public ArrayList<String> getLocationsFromJSON(String json)
-				throws JSONException {
-
-			JSONObject jObj = new JSONObject(json);
-			JSONObject response = jObj.getJSONObject("response");
-			JSONArray venues = response.getJSONArray("venues");
-
-			// JSONObject subObj = jObj.getJSONObject("address");
-			// String city = subObj.getString("city");
-
-			return null;
-		}
-
-		public String addParametersToURL(String url,
-				HashMap<String, String> parameters) {
-			String param = "";
-
-			for (Entry<String, String> entry : parameters.entrySet()) {
-				if (url.charAt(url.length()) != '&') {
-					url.concat("&" + entry.getKey() + "=" + entry.getValue());
-				}
-
-				else {
-					url.concat(entry.getKey() + "=" + entry.getValue());
-				}
-			}
-
-			url.concat("&timestamp=" + Calendar.getInstance().getTime());
-
-			return null;
 		}
 	}
 
