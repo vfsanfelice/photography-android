@@ -3,27 +3,5 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
     android:orientation="vertical">
-    
-	<View
-	    android:layout_height="0dip"
-	    android:layout_width="fill_parent"
-	    android:layout_weight="0"
-	    android:background="#000000" 
-	/>    
-	
-	<ImageView 
-	    android:src="@android:drawable/ic_menu_gallery"
-		android:id="@+id/image"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:contentDescription="Foto"
-	/>
-	
-	<View
-	    android:layout_height="0dip"
-	    android:layout_width="fill_parent"
-	    android:layout_weight="0"
-	    android:background="#000000" 
-	/>
+
 </LinearLayout>
