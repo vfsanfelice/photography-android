@@ -57,6 +57,8 @@
         <activity android:name="com.android.photography.PicturesActivity">
         </activity>
 		<activity android:name="com.android.photography.GalleryListActivity">
+        </activity>
+        <activity android:name="com.android.photography.PhotoActivity">
         </activity>                
 
         <meta-data
