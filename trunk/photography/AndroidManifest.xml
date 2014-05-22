@@ -48,17 +48,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.android.photography.MapsActivity" >
+        <activity android:name="com.android.photography.MapsActivity" 
+            	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.GalleryActivity" >
+        <activity android:name="com.android.photography.GalleryActivity" 
+            	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.CameraActivity" >
+        <activity android:name="com.android.photography.CameraActivity" 
+                  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.PicturesActivity">
+        <activity android:name="com.android.photography.PicturesActivity"
+            	  android:screenOrientation="portrait" >
         </activity>
-		<activity android:name="com.android.photography.GalleryListActivity">
+		<activity android:name="com.android.photography.GalleryListActivity"
+		          android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.PhotoActivity">
+        <activity android:name="com.android.photography.PhotoActivity" 
+            	  android:screenOrientation="portrait" >
         </activity>                
 
         <meta-data

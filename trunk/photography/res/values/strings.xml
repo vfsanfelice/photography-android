@@ -14,5 +14,6 @@
     <string name="preview">Preview</string>
     <string name="title_activity_pictures">PicturesActivity</string>
     <string name="galleryName">galleryName</string>
+    <string name="save">Salvar</string>
 
 </resources>

@@ -15,87 +15,114 @@ import android.util.Log;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 	//Database version
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 6;
 	//Database name
 	private static final String DATABASE_NAME = "PhotographyDB";
 	
 	public SQLiteHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
-
+	
+	/*
+	 * Criação da estrutura do banco de dados SQLITE
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		//SQL to create PictureInfo table
-		String CREATE_PICTUREINFO_TABLE = "CREATE TABLE pictureinfo ( "+
+		String CREATE_GALLERYINFO_TABLE = "CREATE TABLE galleryinfo ( "+
 										  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-										  "latitude REAL, " +
-										  "longitude REAL, " +
+										  "venue_name TEXT, " +
+										  "lat_gps TEXT, " +
+										  "lng_gps TEXT, " + 
+										  "lat_venue TEXT, " +
+										  "lng_venue TEXT, " +
 										  "date TEXT)";
 		
-		//Create PictureInfo table
-		db.execSQL(CREATE_PICTUREINFO_TABLE);
+		//Criação tabela galleryinfo
+		db.execSQL(CREATE_GALLERYINFO_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//Drop older PictureInfo table if existed
-		db.execSQL("DROP TABLE IF EXISTS pictureinfo");
-		//Recreate new table
+		//Dropa a tabela GalleryInfo se já existe
+		db.execSQL("DROP TABLE IF EXISTS galleryinfo");
+		//Recria a tabela
 		this.onCreate(db);
 	}
 	
-	private static final String TABLE_PICTUREINFO = "pictureinfo";
+	// Variáveis de auxílio ao banco de dados
+	private static final String TABLE_GALLERYINFO = "galleryinfo";
 	private static final String FIELD_ID = "id"; 
-	private static final String FIELD_LAT = "latitude";
-	private static final String FIELD_LNG = "longitude";
+	private static final String FIELD_VENUENAME = "venue_name";
+	private static final String FIELD_LATGPS = "lat_gps";
+	private static final String FIELD_LNGGPS = "lng_gps";
+	private static final String FIELD_LATVENUE = "lat_venue";
+	private static final String FIELD_LNGVENUE = "lng_venue";
 	private static final String FIELD_DATE = "date";
-	private static final String[] COLUMNS = {FIELD_ID, FIELD_LAT, FIELD_LNG};
+	private static final String[] COLUMNS = {FIELD_ID, FIELD_VENUENAME, FIELD_LATGPS, FIELD_LNGGPS, FIELD_LATVENUE, FIELD_LNGVENUE, FIELD_DATE };
 	
-	public void add(PictureInfo pi){
+	/*
+	 * Método de inserção de registro no banco de dados
+	 */
+	public void add(GalleryInfo gi){
 		Log.d("add", "add register on database");
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues cv = new ContentValues();
-		cv.put(FIELD_LAT, pi.getLatitude());
-		cv.put(FIELD_LNG, pi.getLongitude());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		cv.put(FIELD_DATE, dateFormat.format(pi.getDate()));
-		db.insert(TABLE_PICTUREINFO, null, cv);
+		cv.put(FIELD_VENUENAME, gi.getVenueName());
+		cv.put(FIELD_LATGPS, gi.getLatGPS());
+		cv.put(FIELD_LNGGPS, gi.getLngGPS());
+		cv.put(FIELD_LATVENUE, gi.getLatVenue());
+		cv.put(FIELD_LNGVENUE, gi.getLngVenue());
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+		cv.put(FIELD_DATE, dateFormat.format(gi.getDate()));
+		db.insert(TABLE_GALLERYINFO, null, cv);
 		db.close();
 	}
 	
-	public void delete(PictureInfo pi){
+	/*
+	 * Método de remoção de registro no banco de dados
+	 */
+	public void delete(GalleryInfo gi){
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_PICTUREINFO, FIELD_ID + " = ?", new String[] {String.valueOf(pi.getId()) });
+		db.delete(TABLE_GALLERYINFO, FIELD_ID + " = ?", new String[] {String.valueOf(gi.getId()) });
 		db.close();
 	}
 	
-	public List<PictureInfo> getAllPictureInfo(){
-		List<PictureInfo> list = new LinkedList<PictureInfo>();
+	/*
+	 * Método de listagem de todos registros do banco de dados
+	 */
+	public List<GalleryInfo> getAllGalleryInfo(){
+		List<GalleryInfo> list = new LinkedList<GalleryInfo>();
 		
-		String query = "SELECT * FROM " + TABLE_PICTUREINFO;
+		String query = "SELECT * FROM " + TABLE_GALLERYINFO;
 		
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		Cursor cursor = db.rawQuery(query, null);
 		
-		PictureInfo pi = null;
+		GalleryInfo gi = null;
 		try {
 			if (cursor.moveToFirst()){
 				do {
-					pi = new PictureInfo();
-					pi.setId(Integer.parseInt(cursor.getString(0)));
-					pi.setLatitude(Double.parseDouble(cursor.getString(1)));
-					pi.setLongitude(Double.parseDouble(cursor.getString(2)));
-					pi.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString((3))));
-					list.add(pi);
+					gi = new GalleryInfo();
+					gi.setId(Integer.parseInt(cursor.getString(0)));
+					gi.setVenueName(cursor.getString(1));
+					gi.setLatGPS(cursor.getString(2));
+					gi.setLngGPS(cursor.getString(3));
+					gi.setLatVenue(cursor.getString(4));
+					gi.setLngVenue(cursor.getString(5));
+					//gi.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString((6))));
+					gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((6))));
+					list.add(gi);
 				} while (cursor.moveToNext());
 			}
 		} catch (ParseException e) {
 			Log.e("error on parse", "error on parse");
 		}
 		
-		for (PictureInfo pictureInfo : list) {
-			Log.d("getAllPictureInfo", pictureInfo.toString());
+		for (GalleryInfo galleryInfo : list) {
+			Log.d("getAllGalleryInfo", galleryInfo.toString());
 		}
 		
 		return list;
