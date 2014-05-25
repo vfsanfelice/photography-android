@@ -66,10 +66,6 @@ public class PhotoActivity extends Activity {
 		button = (Button) findViewById(R.id.save);
 		button.setEnabled(false);
 		
-		//venues = new VenuesList();
-		
-		//populateLocationSpinner(venues);		
-		
 		Intent iin = getIntent();
 		Bundle b = iin.getExtras();
 
@@ -170,6 +166,7 @@ public class PhotoActivity extends Activity {
 	 * Salvar foto com localização escolhida
 	 *  
 	 */
+	
 	public void savePicture(View v) {
 		final Context context = this;
 		//Inserir no banco de dados o registro completo
@@ -205,14 +202,10 @@ public class PhotoActivity extends Activity {
 		locationSpinner.setAdapter(dataAdapter);
 	}
 	
-	
-	
-//	public void addListenerOnSpinnerItemSelection() {
-//		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-//		//locationSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-//	}
-	
-	
+	public void addListenerOnSpinnerItemSelection() {
+		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), Double.toString(latitude), Double.toString(longitude)));
+	}
 	
 	/*
 	 * Classe Interna Privada, responsável por trabalhar com o WebService
@@ -263,14 +256,9 @@ public class PhotoActivity extends Activity {
 
 			String text = null;
 			try {
-				HttpResponse response = httpClient.execute(httpGet,
-						localContext);
-
+				HttpResponse response = httpClient.execute(httpGet,	localContext);
 				HttpEntity entity = response.getEntity();
-
 				text = getASCIIContentFromEntity(entity);
-
-				
 				
 			} catch (Exception e) {
 				return e.getLocalizedMessage();
@@ -278,7 +266,6 @@ public class PhotoActivity extends Activity {
 			
 			return text;
 		}
-
 		
 		/*
 		 * Método executado após a realização do POST do WebService
@@ -294,12 +281,13 @@ public class PhotoActivity extends Activity {
 				jobj = jobj.getAsJsonObject("response");
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
 				
+				// Popula o spinner com os valores das venues retornados pelo WS e parseados pelo GSON
 				populateLocationSpinner(venues);
-				
+				// Escuta o valor selecionado no spinner
+				addListenerOnSpinnerItemSelection();
 				TextView tv = (TextView) findViewById(R.id.legenda);
 				tv.setText("Localização: " + venues.getVenues().get(0).name);
 				//PhotoActivity.location = results;
-				
 				//GPS LATLNG
 				TextView tv1 = (TextView) findViewById(R.id.latitude);
 				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
@@ -310,9 +298,15 @@ public class PhotoActivity extends Activity {
 				tv3.setText("Latitude do FS: " + venues.getVenues().get(0).location.lat);
 				TextView tv4 = (TextView) findViewById(R.id.longitudeFS);
 				tv4.setText("Longitude do FS: " + venues.getVenues().get(0).location.lng);
-				
-				
 				button = (Button) findViewById(R.id.save);
+				button.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						SpinnerOnItemSelectedListener.savePicture(v);
+					}
+				});
+				
 				button.setEnabled(true);
 			}
 		}
