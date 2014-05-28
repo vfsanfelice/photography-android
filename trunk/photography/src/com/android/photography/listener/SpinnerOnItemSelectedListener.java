@@ -1,4 +1,4 @@
-package com.android.photography;
+package com.android.photography.listener;
 
 import java.util.Date;
 
@@ -9,8 +9,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
-import com.android.photography.model.SQLiteHelper;
 import com.android.photography.webservice.Venue;
 import com.android.photography.webservice.VenuesList;
 

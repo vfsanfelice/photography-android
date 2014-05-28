@@ -1,4 +1,4 @@
-package com.android.photography;
+package com.android.photography.activities;
 
 import java.io.File;
 
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
+import com.android.photography.R;
 
 public class CameraActivity extends Activity {
 	
@@ -19,16 +21,6 @@ public class CameraActivity extends Activity {
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 		startActivityForResult(intent, 0);
-		
-//		GPSTracker gps = new GPSTracker(this);
-//		
-//        if(gps.canGetLocation()){
-//            double latitude = gps.getLatitude();
-//            double longitude = gps.getLongitude();
-//            Toast.makeText(getApplicationContext(), "Sua localização atual é: \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();    
-//        }else{
-//            gps.showSettingsAlert();
-//        }
 	}
 	
 	@Override

@@ -1,9 +1,12 @@
-package com.android.photography;
+package com.android.photography.activities;
 
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.android.photography.R;
+import com.android.photography.R.id;
+import com.android.photography.R.layout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;

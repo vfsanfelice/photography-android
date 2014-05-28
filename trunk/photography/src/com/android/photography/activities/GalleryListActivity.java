@@ -1,4 +1,10 @@
-package com.android.photography;
+package com.android.photography.activities;
+
+import com.android.photography.CustomList;
+import com.android.photography.R;
+import com.android.photography.R.drawable;
+import com.android.photography.R.id;
+import com.android.photography.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;
