@@ -1,13 +1,8 @@
 package com.android.photography.activities;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -19,13 +14,11 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,11 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.photography.R;
-import com.android.photography.R.id;
-import com.android.photography.R.layout;
-import com.android.photography.database.SQLiteHelper;
 import com.android.photography.listener.SpinnerOnItemSelectedListener;
-import com.android.photography.model.GalleryInfo;
 import com.android.photography.webservice.Venue;
 import com.android.photography.webservice.VenuesList;
 import com.google.gson.Gson;
@@ -100,99 +89,11 @@ public class PhotoActivity extends Activity {
 			
 			new FoursquareAsyncTask().execute();
 
-			if (null != tryToCreateFolder()) {
-			// TODO copy from IMAGE_DIRECTORY_NAME and move to location
-				
-			}
-
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String tryToCreateFolder() {
-		String path = "";
-
-		// External sdcard location
-		File mediaStorageDir = new File(
-				Environment.getExternalStorageDirectory() + File.separator
-						+ MainActivity.IMAGE_DIRECTORY_NAME, location);
-
-		// Create the storage directory if it does not exist
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
-				Log.d(location, "Oops! Failed create " + location
-						+ " directory");
-				return null;
-			}
-
-			Log.i("checkForExistingFolder", location + " already exists!");
-		}
-
-		return mediaStorageDir.getAbsolutePath();
-	}
-
-	public boolean deleteFile(String path) {
-		try {
-			new File(path).delete();
-		}
-
-		catch (Exception ef) {
-			Log.e("Delete file", ef.getMessage());
-			return false;
-		}
-
-		return true;
-	}
-
-	/*
-	 * path = caminho do arquivo antigo a ser deletado, tem salvo no this.photoPath
-	 */
-	public boolean copyFile(String path) {
-		InputStream in = null;
-		OutputStream out = null;
-		String destiny = tryToCreateFolder();
-		
-		File file = new File(path);
-		String fileName = file.getName();
-
-		try {
-			in = new FileInputStream(path);
-			out = new FileOutputStream(destiny + File.separator + fileName);
-		} catch (Exception e) {
-
-		}
-
-		return true;
-	}
-	
-	/*
-	 * Salvar foto com localização escolhida
-	 *  
-	 */
-	
-	public void savePicture(View v) {
-		final Context context = this;
-		//Inserir no banco de dados o registro completo
-		SQLiteHelper sqlhelper = new SQLiteHelper(context);
-		GalleryInfo gi = new GalleryInfo();
-		gi.setVenueName(venues.getVenues().get(0).name);
-		gi.setLatGPS(Double.toString(latitude));
-		gi.setLngGPS(Double.toString(longitude));
-		gi.setLatVenue(venues.getVenues().get(0).location.lat);
-		gi.setLngVenue(venues.getVenues().get(0).location.lng);
-		Date date = new Date(); 
-		gi.setDate(date);
-		sqlhelper.add(gi);
-				
-		sqlhelper.getAllGalleryInfo();
-		
-				
-		//CRIAR UMA PASTA NOVA E SALVAR A FOTO NELA
-		//NOMEDOLUGAR_DATA.jpg
-	}
-	
-	
 	public void populateLocationSpinner(VenuesList vl) {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
 		//for no json, pegando os nomes das locations e populando o spinner
