@@ -1,4 +1,4 @@
-package com.android.photography;
+package com.android.photography.activities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,8 +35,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.photography.R;
+import com.android.photography.R.id;
+import com.android.photography.R.layout;
+import com.android.photography.database.SQLiteHelper;
+import com.android.photography.listener.SpinnerOnItemSelectedListener;
 import com.android.photography.model.GalleryInfo;
-import com.android.photography.model.SQLiteHelper;
 import com.android.photography.webservice.Venue;
 import com.android.photography.webservice.VenuesList;
 import com.google.gson.Gson;

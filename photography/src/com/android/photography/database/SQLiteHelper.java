@@ -1,10 +1,12 @@
-package com.android.photography.model;
+package com.android.photography.database;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
+import com.android.photography.model.GalleryInfo;
 
 import android.content.ContentValues;
 import android.content.Context;

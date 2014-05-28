@@ -1,9 +1,15 @@
-package com.android.photography;
+package com.android.photography.activities;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import com.android.photography.R;
+import com.android.photography.R.id;
+import com.android.photography.R.layout;
+import com.android.photography.R.menu;
+import com.android.photography.listener.GPSTracker;
 
 import android.app.Activity;
 import android.content.Context;

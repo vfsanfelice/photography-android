@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.android.photography.MainActivity"
+            android:name="com.android.photography.activities.MainActivity"
             android:configChanges="orientation"
             android:label="@string/photography"
             android:screenOrientation="portrait" >
@@ -48,22 +48,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.android.photography.MapsActivity" 
+        <activity android:name="com.android.photography.activities.MapsActivity" 
             	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.GalleryActivity" 
+        <activity android:name="com.android.photography.activities.GalleryActivity" 
             	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.CameraActivity" 
+        <activity android:name="android.photography.activities.CameraActivity" 
                   android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.android.photography.PicturesActivity"
             	  android:screenOrientation="portrait" >
         </activity>
-		<activity android:name="com.android.photography.GalleryListActivity"
+		<activity android:name="com.android.photography.activities.GalleryListActivity"
 		          android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.PhotoActivity" 
+        <activity android:name="com.android.photography.activities.PhotoActivity" 
             	  android:screenOrientation="portrait" >
         </activity>                
 
