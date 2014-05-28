@@ -106,11 +106,11 @@ public class MainActivity extends Activity {
 			// Toast.LENGTH_SHORT).show();
 		} else if (resultCode == RESULT_CANCELED) {
 			// user cancelled Image capture
-			Toast.makeText(getApplicationContext(), "CANCELARO O BAGULHO",
+			Toast.makeText(getApplicationContext(), "Fotografia cancelada!",
 					Toast.LENGTH_SHORT).show();
 		} else {
 			// failed to capture image
-			Toast.makeText(getApplicationContext(), "NUM DEU",
+			Toast.makeText(getApplicationContext(), "Falha ao tentar tirar fotografia!",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -139,7 +139,9 @@ public class MainActivity extends Activity {
 		File photo = new File(mediaStorageDir.getPath() + File.separator
 				+ "IMG_" + timeStamp + ".jpg");
 
-		photoLabel = photo.getPath();
+		//photoLabel = photo.getPath();
+		
+		photoLabel = photo.getName();
 
 		return photo;
 	}
