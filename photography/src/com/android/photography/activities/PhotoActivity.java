@@ -97,7 +97,7 @@ public class PhotoActivity extends Activity {
 
 			ImageView photoPreview = (ImageView) findViewById(R.id.photoPreview);
 			photoPreview.setImageBitmap(bitmap);
-
+			
 			new FoursquareAsyncTask().execute();
 
 			if (null != tryToCreateFolder()) {
@@ -278,7 +278,7 @@ public class PhotoActivity extends Activity {
 		@Override
 		protected void onPostExecute(String results) {
 			if (results != null) {
-				
+				// Mapeamento da variável results (json retornado do WebService) com o GSON em classes java
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
@@ -287,11 +287,14 @@ public class PhotoActivity extends Activity {
 				
 				// Popula o spinner com os valores das venues retornados pelo WS e parseados pelo GSON
 				populateLocationSpinner(venues);
+				
 				// Escuta o valor selecionado no spinner
 				addListenerOnSpinnerItemSelection();
-				TextView tv = (TextView) findViewById(R.id.legenda);
-				tv.setText("Localização: " + venues.getVenues().get(0).name);
-				//PhotoActivity.location = results;
+				
+				TextView legenda = (TextView) findViewById(R.id.legenda);
+				legenda.setText("Localização: " + venues.getVenues().get(0).name);
+				TextView nome = (TextView) findViewById(R.id.nome);
+				nome.setText("Nome do arquivo: "+photoLabel);
 				//GPS LATLNG
 				TextView tv1 = (TextView) findViewById(R.id.latitude);
 				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
@@ -307,7 +310,12 @@ public class PhotoActivity extends Activity {
 					
 					@Override
 					public void onClick(View v) {
-						SpinnerOnItemSelectedListener.savePicture(v);
+						try {
+							SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				
