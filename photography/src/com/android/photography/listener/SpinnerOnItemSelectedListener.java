@@ -15,11 +15,14 @@ import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.photography.R;
 import com.android.photography.activities.GalleryListActivity;
 import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
@@ -36,13 +39,13 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	static LatLng latlng;
 
-	public SpinnerOnItemSelectedListener(VenuesList vl, TextView t1, TextView t2, String latitudeGPS, String longitudeGPS, TextView t3) {
+	public SpinnerOnItemSelectedListener(VenuesList vl, TextView t1, TextView t2, TextView t3, String latitudeGPS, String longitudeGPS) {
 		this.vl = vl;
 		this.t1 = t1;
 		this.t2 = t2;
+		this.t3 = t3;
 		this.latitudeGPS = latitudeGPS;
 		this.longitudeGPS = longitudeGPS;
-		this.t3 = t3;
 	}
 
 	@Override

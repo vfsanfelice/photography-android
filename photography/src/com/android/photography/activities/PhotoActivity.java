@@ -14,6 +14,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,7 +52,8 @@ public class PhotoActivity extends Activity {
 	static Double latitude;
 	static Double longitude;
 	static String location;
-
+	private ProgressDialog progressDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,7 +114,7 @@ public class PhotoActivity extends Activity {
 	
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), Double.toString(latitude), Double.toString(longitude), (TextView)findViewById(R.id.legenda)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), (TextView)findViewById(R.id.legenda), Double.toString(latitude), Double.toString(longitude)));
 	}
 	
 	/*
@@ -164,15 +166,34 @@ public class PhotoActivity extends Activity {
 
 			String text = null;
 			try {
-				HttpResponse response = httpClient.execute(httpGet,	localContext);
-				HttpEntity entity = response.getEntity();
-				text = getASCIIContentFromEntity(entity);
+				synchronized (this) {
+					int counter = 0;
+					
+					while (counter <= 2) {
+					
+						this.wait(200);
+						counter++;
+						setProgress(counter*50);
+						HttpResponse response = httpClient.execute(httpGet,	localContext);
+						HttpEntity entity = response.getEntity();
+						text = getASCIIContentFromEntity(entity);
+					}
+				}
 				
 			} catch (Exception e) {
 				return e.getLocalizedMessage();
 			}
 			
 			return text;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+	    	progressDialog = ProgressDialog.show(PhotoActivity.this,"Carregando...", "Aguarde enquanto carregamos a lista de lugares...", false, false);  
+		}
+		
+		protected void onProgressUpdate(Integer... values) {
+			progressDialog.setProgress(values[0]);
 		}
 		
 		/*
@@ -182,6 +203,7 @@ public class PhotoActivity extends Activity {
 		@Override
 		protected void onPostExecute(String results) {
 			if (results != null) {
+				progressDialog.dismiss();
 				// Mapeamento da variável results (json retornado do WebService) com o GSON em classes java
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
