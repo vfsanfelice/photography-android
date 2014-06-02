@@ -5,19 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CustomList extends ArrayAdapter<String> {
 	private final Activity activityContext;
-	private final String[] web;
-	private final Integer[] imageId;
+	private final String[] arrayOfGallery;
+	//private final Integer[] imageId;
 
-	public CustomList(Activity activityContext, String[] web, Integer[] imageId) {
-		super(activityContext, R.layout.list_single, web);
+	public CustomList(Activity activityContext, String[] arrayOfGallery) {
+		super(activityContext, R.layout.list_single, arrayOfGallery);
 		this.activityContext = activityContext;
-		this.web = web;
-		this.imageId = imageId;
+		this.arrayOfGallery = arrayOfGallery;
 	}
 
 	@Override
@@ -25,9 +23,9 @@ public class CustomList extends ArrayAdapter<String> {
 		LayoutInflater inflater = activityContext.getLayoutInflater();
 		View rowView = inflater.inflate(R.layout.list_single, null, true);
 		TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-		ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-		txtTitle.setText(web[position]);
-		imageView.setImageResource(imageId[position]);
+		//ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+		txtTitle.setText(arrayOfGallery[position]);
+		//imageView.setImageResource(imageId[position]);
 		return rowView;
 	}
 }

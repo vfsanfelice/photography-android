@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.photography.activities.GalleryListActivity;
 import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
 import com.android.photography.webservice.Venue;
@@ -45,11 +47,7 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		Toast.makeText(
-				parent.getContext(),
-				"OnItemSelectedListener: "
-						+ parent.getItemAtPosition(position).toString(),
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(parent.getContext(), "OnItemSelectedListener: " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
 
 		for (Venue venue : vl.getVenues()) {
 			if (venue.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
@@ -67,8 +65,7 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 	}
 
-	public static void savePicture(View v, String photoLabel)
-			throws IOException {
+	public static void savePicture(View v, String photoLabel) throws IOException {
 		final Context context = v.getContext();
 		// Inserir no banco de dados o registro completo
 		SQLiteHelper sqlhelper = new SQLiteHelper(context);
@@ -82,51 +79,54 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setDate(date);
 		sqlhelper.add(gi);
 		sqlhelper.getAllGalleryInfo();
-		
-		// Criar a pasta com o nome escolhido no spinner e salvar a foto dentro dela com o nome correto
-		// Salvar a foto na pasta certa com currentVenue.name+Date
+
+		/* Criar a pasta com o nome escolhido no spinner e salvar a foto dentro
+		/ dela com o nome correto
+		/ Salvar a foto na pasta certa com currentVenue.name+Date 
+		*/
 		createFolderStructure(photoLabel, date);
-		
-		
-		//Criar um marcador de acordo com a latlng escolhida no WebService
+
+		// Criar um marcador de acordo com a latlng escolhida no WebService
 		latlng = new LatLng(currentVenue.getLocation().getLat(), currentVenue.getLocation().getLng());
-		//MapsActivity.addMarker(latlng, currentVenue.name);
+		// MapsActivity.addMarker(latlng, currentVenue.name);
+
 	}
 
-	public static void createFolderStructure(String photoLabel, Date date)
-			throws IOException {
-		// Cria o nome do diretório, a partir da localização escolhida no spinner, dentro da pasta Photography
-		File mediaStorageDir = new File(
-				Environment.getExternalStorageDirectory(), IMAGE_DIRECTORY_NAME
-						+ (File.separator + currentVenue.name).replace(" ", ""));
+	public static void createFolderStructure(String photoLabel, Date date) throws IOException {
+		// Cria o nome do diretório, a partir da localização escolhida no
+		// spinner, dentro da pasta Photography
+		File mediaStorageDir = new File(Environment.getExternalStorageDirectory(), IMAGE_DIRECTORY_NAME + (File.separator + currentVenue.name).replace(" ", ""));
 
 		// Verifica se já existe, caso não exista, cria a pasta
 		if (!mediaStorageDir.exists()) {
 			if (!mediaStorageDir.mkdirs()) {
-				Log.d(IMAGE_DIRECTORY_NAME, "Ops! Falha ao criar o diretório "
-						+ IMAGE_DIRECTORY_NAME
-						+ File.separator + (currentVenue.name).replace(" ", ""));
+				Log.d(IMAGE_DIRECTORY_NAME, "Ops! Falha ao criar o diretório " + IMAGE_DIRECTORY_NAME + File.separator + (currentVenue.name).replace(" ", ""));
 			}
 		}
-		
-		// Início do processo de cópia da foto para pasta de destino correta e deleção do arquivo antigo
+
+		// Início do processo de cópia da foto para pasta de destino correta e
+		// deleção do arquivo antigo
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 
 		try {
 			// Caminho e nome da fotografia tirada no contexto atual
-			File afile = new File("/storage/emulated/0/Photography/"+photoLabel);
-			
-			// Conversão da data do sistema para ser incluído no nome da nova fotografia
+			File oldFile = new File("/storage/emulated/0/Photography/" + photoLabel);
+
+			// Conversão da data do sistema para ser incluído no nome da nova
+			// fotografia
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy", Locale.getDefault());
 			String stringdateformatter = dateFormat.format(date);
-			
-			// Caminho e nome da fotografia copiada, sendo adicionada na pasta correta de acordo com a escolha de localização pelo usuário
-			File bfile = new File(mediaStorageDir+File.separator+(currentVenue.name).replace(" ", "")+"_"+stringdateformatter+"_1.jpg");
-			
-			
-			inputStream = new FileInputStream(afile);
-			outputStream = new FileOutputStream(bfile);
+
+			// Caminho e nome da fotografia copiada, sendo adicionada na pasta
+			// correta de acordo com a escolha de localização pelo usuário
+			File newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + "_1.jpg");
+
+			Log.d("newFile", newFile.getName());
+			// newFile.getName() retorna Localizazao_Data.jpg
+
+			inputStream = new FileInputStream(oldFile);
+			outputStream = new FileOutputStream(newFile);
 
 			byte[] buffer = new byte[1024];
 
@@ -140,8 +140,8 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 			outputStream.close();
 
 			// Deleta o arquivo da foto inicial
-			afile.delete();
-			Log.d("CopyFile", "Arquivo " + photoLabel +" foi copiado com sucesso!");
+			oldFile.delete();
+			Log.d("CopyFile", "Arquivo " + photoLabel + " foi copiado com sucesso!");
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.photography.CustomList;
 import com.android.photography.R;
@@ -21,8 +22,7 @@ public class GalleryListActivity extends Activity {
 	private File file;
 	private List<String> listOfGallery;
 	ListView list;
-	String[] web = { "Galeria1", "Galeria2", "Galeria3", "Galeria4", "Galeria5", "Galeria6", "Galeria7" };
-	Integer[] imageId = { R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher };
+	String[] arrayOfGallery;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +39,26 @@ public class GalleryListActivity extends Activity {
 			listOfGallery.add(lista[i].getName());
 		}
 		
-		CustomList adapter = new CustomList(GalleryListActivity.this, web, imageId);
-		list = (ListView) findViewById(R.id.list);
-		list.setAdapter(adapter);
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// Toast.makeText(GalleryListActivity.this, "You Clicked at " + web[+position], Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(GalleryListActivity.this, GalleryActivity.class);
-				intent.putExtra("galleryName", web[+position]);
-				startActivity(intent);
-			}
-		});
+		arrayOfGallery = listOfGallery.toArray(new String[listOfGallery.size()]);
+		
+		if (arrayOfGallery.length > 0) {
+		
+			CustomList adapter = new CustomList(GalleryListActivity.this, arrayOfGallery);
+			list = (ListView) findViewById(R.id.list);
+			list.setAdapter(adapter);
+			list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Intent intent = new Intent(GalleryListActivity.this, GalleryActivity.class);
+					intent.putExtra("galleryName", arrayOfGallery[+position]);
+					startActivity(intent);
+				}
+			});
+		} 
+		else {
+			TextView noGallery = (TextView) findViewById(R.id.noGallery);
+			noGallery.setText("Não existem galerias disponíveis!");
+		}
+			
 	}
 }
