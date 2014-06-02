@@ -15,5 +15,6 @@
     <string name="title_activity_pictures">PicturesActivity</string>
     <string name="galleryName">galleryName</string>
     <string name="save">Salvar</string>
+    <string name="gallery_activity_title">Galeria</string>
 
 </resources>

@@ -2,23 +2,23 @@ package com.android.photography.webservice;
 
 public class Location {
 
-	public String lat;
+	public Double lat;
 	
-	public String lng;
+	public Double lng;
 
-	public String getLat() {
+	public Double getLat() {
 		return lat;
 	}
 
-	public void setLat(String lat) {
+	public void setLat(Double lat) {
 		this.lat = lat;
 	}
 
-	public String getLng() {
+	public Double getLng() {
 		return lng;
 	}
 
-	public void setLng(String lng) {
+	public void setLng(Double lng) {
 		this.lng = lng;
 	}
 }

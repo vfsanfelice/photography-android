@@ -51,7 +51,7 @@
         <activity android:name="com.android.photography.activities.MapsActivity" 
             	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.android.photography.activities.GalleryActivity" 
+        <activity android:name="com.android.photography.activities.GalleryActivity"
             	  android:screenOrientation="portrait" >
         </activity>
         <activity android:name="android.photography.activities.CameraActivity" 
@@ -61,6 +61,7 @@
             	  android:screenOrientation="portrait" >
         </activity>
 		<activity android:name="com.android.photography.activities.GalleryListActivity"
+		    	  android:label="@string/gallery_activity_title"
 		          android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.android.photography.activities.PhotoActivity" 
