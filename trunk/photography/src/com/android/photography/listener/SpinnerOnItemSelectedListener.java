@@ -23,27 +23,28 @@ import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
 import com.android.photography.webservice.Venue;
 import com.android.photography.webservice.VenuesList;
+import com.google.android.gms.maps.model.LatLng;
 
 public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 	VenuesList vl;
-	TextView t1, t2;
+	TextView t1, t2, t3;
 	static Venue currentVenue;
 	static String latitudeGPS, longitudeGPS;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
+	static LatLng latlng;
 
-	public SpinnerOnItemSelectedListener(VenuesList vl, TextView t1,
-			TextView t2, String latitudeGPS, String longitudeGPS) {
+	public SpinnerOnItemSelectedListener(VenuesList vl, TextView t1, TextView t2, String latitudeGPS, String longitudeGPS, TextView t3) {
 		this.vl = vl;
 		this.t1 = t1;
 		this.t2 = t2;
 		this.latitudeGPS = latitudeGPS;
 		this.longitudeGPS = longitudeGPS;
+		this.t3 = t3;
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		Toast.makeText(
 				parent.getContext(),
 				"OnItemSelectedListener: "
@@ -51,10 +52,10 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 				Toast.LENGTH_SHORT).show();
 
 		for (Venue venue : vl.getVenues()) {
-			if (venue.getName().equalsIgnoreCase(
-					parent.getItemAtPosition(position).toString())) {
-				t1.setText(venue.location.lat);
-				t2.setText(venue.location.lng);
+			if (venue.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
+				t1.setText("Latitude do FS: " + venue.location.lat);
+				t2.setText("Longitude do FS: " + venue.location.lng);
+				t3.setText("Localização: " + venue.name);
 				currentVenue = venue;
 			}
 		}
@@ -75,16 +76,21 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setVenueName(currentVenue.name);
 		gi.setLatGPS(latitudeGPS);
 		gi.setLngGPS(longitudeGPS);
-		gi.setLatVenue(currentVenue.getLocation().getLat());
-		gi.setLngVenue(currentVenue.getLocation().getLng());
+		gi.setLatVenue(Double.toString(currentVenue.getLocation().getLat()));
+		gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
 		Date date = new Date();
 		gi.setDate(date);
 		sqlhelper.add(gi);
 		sqlhelper.getAllGalleryInfo();
-
+		
 		// Criar a pasta com o nome escolhido no spinner e salvar a foto dentro dela com o nome correto
 		// Salvar a foto na pasta certa com currentVenue.name+Date
 		createFolderStructure(photoLabel, date);
+		
+		
+		//Criar um marcador de acordo com a latlng escolhida no WebService
+		latlng = new LatLng(currentVenue.getLocation().getLat(), currentVenue.getLocation().getLng());
+		//MapsActivity.addMarker(latlng, currentVenue.name);
 	}
 
 	public static void createFolderStructure(String photoLabel, Date date)

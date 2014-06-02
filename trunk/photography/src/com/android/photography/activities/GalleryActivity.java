@@ -33,7 +33,7 @@ public class GalleryActivity extends Activity{
 		Intent intent = getIntent();
 		String galleryName = intent.getStringExtra("galleryName");
 		
-		((TextView)findViewById(R.id.textViewGallery)).setText(galleryName);
+		setTitle(galleryName);
 		
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override

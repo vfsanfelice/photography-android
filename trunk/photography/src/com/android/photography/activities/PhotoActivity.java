@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,7 +41,6 @@ import com.google.gson.JsonParser;
 
 public class PhotoActivity extends Activity {
 	
-	
 	private Button button;
 	private Spinner locationSpinner;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
@@ -54,6 +55,8 @@ public class PhotoActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.picture_layout);
 		
 		button = (Button) findViewById(R.id.save);
@@ -109,7 +112,7 @@ public class PhotoActivity extends Activity {
 	
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), Double.toString(latitude), Double.toString(longitude)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), Double.toString(latitude), Double.toString(longitude), (TextView)findViewById(R.id.legenda)));
 	}
 	
 	/*
