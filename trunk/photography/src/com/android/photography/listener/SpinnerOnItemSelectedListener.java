@@ -11,19 +11,14 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.photography.R;
-import com.android.photography.activities.GalleryListActivity;
 import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
 import com.android.photography.webservice.Venue;
@@ -67,9 +62,33 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * Realize all operations to create the physic structure in SD card and save the picture.
+	 * 
+	 * @param v
+	 * @param photoLabel
+	 * @throws IOException
+	 */
 	public static void savePicture(View v, String photoLabel) throws IOException {
 		final Context context = v.getContext();
+		Date date = new Date();
+		insertPictureOnDatabase(context, date);
+		createGalleryStructure(photoLabel, date);
+
+		// Criar um marcador de acordo com a latlng escolhida no WebService
+		latlng = new LatLng(currentVenue.getLocation().getLat(), currentVenue.getLocation().getLng());
+		// MapsActivity.addMarker(latlng, currentVenue.name);
+		
+	}
+	
+	/**
+	 * Insert on database the information about the picture taken
+	 * 
+	 * @param context
+	 * @param date
+	 */
+	private static void insertPictureOnDatabase(final Context context, Date date) {
 		// Inserir no banco de dados o registro completo
 		SQLiteHelper sqlhelper = new SQLiteHelper(context);
 		GalleryInfo gi = new GalleryInfo();
@@ -78,24 +97,21 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setLngGPS(longitudeGPS);
 		gi.setLatVenue(Double.toString(currentVenue.getLocation().getLat()));
 		gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
-		Date date = new Date();
 		gi.setDate(date);
 		sqlhelper.add(gi);
-		sqlhelper.getAllGalleryInfo();
-
-		/* Criar a pasta com o nome escolhido no spinner e salvar a foto dentro
-		/ dela com o nome correto
-		/ Salvar a foto na pasta certa com currentVenue.name+Date 
-		*/
-		createFolderStructure(photoLabel, date);
-
-		// Criar um marcador de acordo com a latlng escolhida no WebService
-		latlng = new LatLng(currentVenue.getLocation().getLat(), currentVenue.getLocation().getLng());
-		// MapsActivity.addMarker(latlng, currentVenue.name);
-
+		
+		// Lista todas fotos existentes em galerias
+		//sqlhelper.getAllGalleryInfo();
 	}
-
-	public static void createFolderStructure(String photoLabel, Date date) throws IOException {
+	
+	/**
+	 * Create the folder with the name chosen by the user and save the picture in this folder
+	 * 
+	 * @param photoLabel
+	 * @param date
+	 * @throws IOException
+	 */
+	public static void createGalleryStructure(String photoLabel, Date date) throws IOException {
 		// Cria o nome do diretório, a partir da localização escolhida no
 		// spinner, dentro da pasta Photography
 		File mediaStorageDir = new File(Environment.getExternalStorageDirectory(), IMAGE_DIRECTORY_NAME + (File.separator + currentVenue.name).replace(" ", ""));
@@ -106,7 +122,20 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 				Log.d(IMAGE_DIRECTORY_NAME, "Ops! Falha ao criar o diretório " + IMAGE_DIRECTORY_NAME + File.separator + (currentVenue.name).replace(" ", ""));
 			}
 		}
+		
+		moveFileToNewFolder(photoLabel, date, mediaStorageDir);
 
+	}
+	
+	/**
+	 * Move the initial picture file to the destination folder based on location that user selects.
+	 * Execute the copy and delete process to the original file.
+	 * 
+	 * @param photoLabel
+	 * @param date
+	 * @param mediaStorageDir
+	 */
+	private static void moveFileToNewFolder(String photoLabel, Date date, File mediaStorageDir) {
 		// Início do processo de cópia da foto para pasta de destino correta e
 		// deleção do arquivo antigo
 		InputStream inputStream = null;
@@ -149,7 +178,6 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

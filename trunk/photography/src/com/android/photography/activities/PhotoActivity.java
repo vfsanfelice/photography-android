@@ -41,7 +41,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class PhotoActivity extends Activity {
-	
+
 	private Button button;
 	private Spinner locationSpinner;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
@@ -53,17 +53,17 @@ public class PhotoActivity extends Activity {
 	static Double longitude;
 	static String location;
 	private ProgressDialog progressDialog;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.picture_layout);
-		
+
 		button = (Button) findViewById(R.id.save);
 		button.setEnabled(false);
-		
+
 		Intent iin = getIntent();
 		Bundle b = iin.getExtras();
 
@@ -91,7 +91,7 @@ public class PhotoActivity extends Activity {
 
 			ImageView photoPreview = (ImageView) findViewById(R.id.photoPreview);
 			photoPreview.setImageBitmap(bitmap);
-			
+
 			new FoursquareAsyncTask().execute();
 
 		} catch (NullPointerException e) {
@@ -101,34 +101,32 @@ public class PhotoActivity extends Activity {
 
 	public void populateLocationSpinner(VenuesList vl) {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		//for no json, pegando os nomes das locations e populando o spinner
+		// for no json, pegando os nomes das locations e populando o spinner
 		List<String> list = new ArrayList<String>();
 		for (Venue venue : vl.getVenues()) {
 			list.add(venue.getName());
 		}
-		
+
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		locationSpinner.setAdapter(dataAdapter);
 	}
-	
+
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView)findViewById(R.id.latitudeFS), (TextView)findViewById(R.id.longitudeFS), (TextView)findViewById(R.id.legenda), Double.toString(latitude), Double.toString(longitude)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.latitudeFS), (TextView) findViewById(R.id.longitudeFS),
+				(TextView) findViewById(R.id.legenda), Double.toString(latitude), Double.toString(longitude)));
 	}
 	
-	/*
-	 * Classe Interna Privada, responsável por trabalhar com o WebService
+	/**
+	 * Private class responsible for work with WebService
 	 */
 	private class FoursquareAsyncTask extends AsyncTask<Void, Void, String> {
-
-		//VenuesList venues = new VenuesList();
 
 		// pega o texto da httpentity
 		// poderia ser usado um BasicResponseHandler, passando como parametro o
 		// handler ao inves do localContext
-		protected String getASCIIContentFromEntity(HttpEntity entity)
-				throws IllegalStateException, IOException {
+		protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
 			InputStream in = entity.getContent();
 
 			StringBuffer out = new StringBuffer();
@@ -143,10 +141,9 @@ public class PhotoActivity extends Activity {
 
 			return out.toString();
 		}
-		
-		
-		/*
-		 * Método que faz a requisição do WebService em background
+
+		/**
+		 * Method that calls the WebService in background and returns the response of the HTTP request
 		 */
 		@Override
 		protected String doInBackground(Void... params) {
@@ -154,10 +151,7 @@ public class PhotoActivity extends Activity {
 			HttpContext localContext = new BasicHttpContext();
 
 			// WebService URL
-			String URLString = "https://api.foursquare.com/v2/venues/search?ll="
-					+ PhotoActivity.latitude
-					+ ","
-					+ PhotoActivity.longitude
+			String URLString = "https://api.foursquare.com/v2/venues/search?ll=" + PhotoActivity.latitude + "," + PhotoActivity.longitude
 					+ "&oauth_token=3N1YYYFSO2FQVI00TNR1OTYS1C1FFTGBJGU3VWP4QMCCKG5K&v=20140220";
 
 			Log.d("WS", URLString);
@@ -168,83 +162,101 @@ public class PhotoActivity extends Activity {
 			try {
 				synchronized (this) {
 					int counter = 0;
-					
+
 					while (counter <= 2) {
-					
+
 						this.wait(200);
 						counter++;
-						setProgress(counter*50);
-						HttpResponse response = httpClient.execute(httpGet,	localContext);
+						setProgress(counter * 50);
+						HttpResponse response = httpClient.execute(httpGet, localContext);
 						HttpEntity entity = response.getEntity();
 						text = getASCIIContentFromEntity(entity);
 					}
 				}
-				
+
 			} catch (Exception e) {
 				return e.getLocalizedMessage();
 			}
-			
+
 			return text;
 		}
 		
 		@Override
 		protected void onPreExecute() {
-	    	progressDialog = ProgressDialog.show(PhotoActivity.this,"Carregando...", "Aguarde enquanto carregamos a lista de lugares...", false, false);  
+			progressDialog = ProgressDialog.show(PhotoActivity.this, "Carregando...", "Aguarde enquanto carregamos a lista de lugares...", false, false);
 		}
-		
+
 		protected void onProgressUpdate(Integer... values) {
 			progressDialog.setProgress(values[0]);
 		}
-		
+
 		/*
-		 * Método executado após a realização do POST do WebService
-		 * Quando o WebService termina sua execução, realiza os comandos desejados
+		 * Método executado após a realização do POST do WebService Quando o
+		 * WebService termina sua execução, realiza os comandos desejados
+		 */
+		
+		/**
+		 * Method executed in response to DoInBackground that capture the return of the HTTP request and parse the JSON using GSON library
 		 */
 		@Override
 		protected void onPostExecute(String results) {
 			if (results != null) {
 				progressDialog.dismiss();
-				// Mapeamento da variável results (json retornado do WebService) com o GSON em classes java
+				// Mapeamento da variável results (json retornado do WebService)
+				// com o GSON em classes java
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
 				jobj = jobj.getAsJsonObject("response");
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
-				
-				// Popula o spinner com os valores das venues retornados pelo WS e parseados pelo GSON
+
+				// Popula o spinner com os valores das venues retornados pelo WS
+				// e parseados pelo GSON
 				populateLocationSpinner(venues);
-				
+
 				// Escuta o valor selecionado no spinner
 				addListenerOnSpinnerItemSelection();
-				
+
 				TextView legenda = (TextView) findViewById(R.id.legenda);
 				legenda.setText("Localização: " + venues.getVenues().get(0).name);
 				TextView nome = (TextView) findViewById(R.id.nome);
-				nome.setText("Nome do arquivo: "+photoLabel);
-				//GPS LATLNG
+				nome.setText("Nome do arquivo: " + photoLabel);
+				// GPS LATLNG
 				TextView tv1 = (TextView) findViewById(R.id.latitude);
 				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
 				TextView tv2 = (TextView) findViewById(R.id.longitude);
 				tv2.setText("Longitude do GPS: " + Double.toString(longitude));
-				//Foursquare LATLNG
+				// Foursquare LATLNG
 				TextView tv3 = (TextView) findViewById(R.id.latitudeFS);
 				tv3.setText("Latitude do FS: " + venues.getVenues().get(0).location.lat);
 				TextView tv4 = (TextView) findViewById(R.id.longitudeFS);
 				tv4.setText("Longitude do FS: " + venues.getVenues().get(0).location.lng);
 				button = (Button) findViewById(R.id.save);
 				button.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						try {
 							SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel);
+							Intent intent = new Intent(v.getContext(), MainActivity.class);
+							startActivity(intent);
+							
+							
+							/*
+							 * Fazer entrar direto no método de openCamera  
+							 */
+							
+							// Intent intent = new Intent(v.getContext(),
+							// MainActivity.class);
+							// intent.putExtra("methodName", "openCamera");
+							// startActivity(intent);
+
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 				});
-				
+
 				button.setEnabled(true);
 			}
 		}
