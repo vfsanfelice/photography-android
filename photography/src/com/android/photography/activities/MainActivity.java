@@ -5,12 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.android.photography.R;
-import com.android.photography.R.id;
-import com.android.photography.R.layout;
-import com.android.photography.R.menu;
-import com.android.photography.listener.GPSTracker;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +19,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.android.photography.R;
+import com.android.photography.listener.GPSTracker;
 
 public class MainActivity extends Activity {
 
@@ -181,5 +178,17 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-	}
+	}	
+	
+	/*
+	 * Fazer entrar direto no método de openCamera  
+	 */
+	
+//	@Override
+//	protected void onNewIntent(Intent intent) {
+//		//super.onNewIntent(intent);
+//		if(intent.getStringExtra("methodName").equals("openCamera")){
+//		      openCamera(null);
+//		}
+//	}
 }

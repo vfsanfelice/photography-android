@@ -25,9 +25,6 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 	
-	/*
-	 * Criação da estrutura do banco de dados SQLITE
-	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		//SQL to create PictureInfo table
@@ -43,7 +40,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		//Criação tabela galleryinfo
 		db.execSQL(CREATE_GALLERYINFO_TABLE);
 	}
-
+	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		//Dropa a tabela GalleryInfo se já existe

@@ -33,16 +33,18 @@ public class GalleryListActivity extends Activity {
 
 		String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 		file = new File(root_sd);
-
-		File lista[] = file.listFiles();
-		for (int i = 0; i < lista.length; i++) {
-			listOfGallery.add(lista[i].getName());
-		}
 		
+		File lista[] = file.listFiles();
+		
+		for (int i = 0; i < lista.length; i++) {
+			String galleryName = lista[i].getName();
+			if (galleryName.indexOf(".jpg") < 0) {
+				listOfGallery.add(galleryName);
+			}
+		}
 		arrayOfGallery = listOfGallery.toArray(new String[listOfGallery.size()]);
 		
 		if (arrayOfGallery.length > 0) {
-		
 			CustomList adapter = new CustomList(GalleryListActivity.this, arrayOfGallery);
 			list = (ListView) findViewById(R.id.list);
 			list.setAdapter(adapter);

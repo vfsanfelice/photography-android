@@ -12,7 +12,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends Activity {
 
@@ -29,10 +28,10 @@ public class MapsActivity extends Activity {
 		setContentView(R.layout.maps_layout);
 		//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		//map.setMyLocationEnabled(true);
-		setUpMap();
+		verifyMapAndCreate();
 	}
 	
-	public void setUpMap()
+	public void verifyMapAndCreate()
     {
         // Do a null check to confirm that we have not already instantiated the map.
         if (map == null)
