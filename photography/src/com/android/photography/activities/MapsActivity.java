@@ -1,5 +1,7 @@
 package com.android.photography.activities;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
@@ -8,10 +10,13 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.photography.R;
+import com.android.photography.database.SQLiteHelper;
+import com.android.photography.model.GalleryInfo;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends Activity {
 
@@ -19,6 +24,7 @@ public class MapsActivity extends Activity {
 	protected Marker marker;
 	protected LatLng latlng;
 	protected Location location;
+	public GalleryInfo gi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,17 @@ public class MapsActivity extends Activity {
             if (map != null)
             {	
             	map.setMyLocationEnabled(true);
+            	
+            	List<GalleryInfo> listOfGalleryInfo;
+            	SQLiteHelper db = new SQLiteHelper(this);
+            	listOfGalleryInfo = db.getAllGalleryInfo();
+            	for (int i = 0; i < listOfGalleryInfo.size(); i++){
+            		
+            		latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
+            		
+            		addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
+            	}
+            	
                 Toast.makeText(getApplicationContext(), "Bombou", Toast.LENGTH_SHORT).show();
             }
             else
@@ -50,10 +67,10 @@ public class MapsActivity extends Activity {
     }
 	
 	// método que adiciona um marcador
-//	public static void addMarker(LatLng ll, String venueName){
-//		MarkerOptions markerOptions = new MarkerOptions();
-//		markerOptions.position(ll);
-//		markerOptions.title(venueName);
-//		map.addMarker(markerOptions);
-//	}
+	public static void addMarker(LatLng ll, String venueName){
+		MarkerOptions markerOptions = new MarkerOptions();
+		markerOptions.position(ll);
+		markerOptions.title(venueName);
+		map.addMarker(markerOptions);
+	}
 }
