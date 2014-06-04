@@ -240,16 +240,6 @@ public class PhotoActivity extends Activity {
 							SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel);
 							Intent intent = new Intent(v.getContext(), MainActivity.class);
 							startActivity(intent);
-							
-							
-							/*
-							 * Fazer entrar direto no método de openCamera  
-							 */
-							
-							// Intent intent = new Intent(v.getContext(),
-							// MainActivity.class);
-							// intent.putExtra("methodName", "openCamera");
-							// startActivity(intent);
 
 						} catch (IOException e) {
 							e.printStackTrace();

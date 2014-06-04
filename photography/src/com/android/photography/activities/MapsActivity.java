@@ -1,5 +1,6 @@
 package com.android.photography.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -32,11 +33,12 @@ public class MapsActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.maps_layout);
-		//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		//map.setMyLocationEnabled(true);
 		verifyMapAndCreate();
 	}
 	
+	/**
+	 * Verify if the map exists and add markers based on database
+	 */
 	public void verifyMapAndCreate()
     {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -49,16 +51,13 @@ public class MapsActivity extends Activity {
             {	
             	map.setMyLocationEnabled(true);
             	
-            	List<GalleryInfo> listOfGalleryInfo;
             	SQLiteHelper db = new SQLiteHelper(this);
-            	listOfGalleryInfo = db.getAllGalleryInfo();
+            	List<GalleryInfo> listOfGalleryInfo = new ArrayList<GalleryInfo>(db.getAllGalleryInfo());
+            	
             	for (int i = 0; i < listOfGalleryInfo.size(); i++){
-            		
             		latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
-            		
             		addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
             	}
-            	
                 Toast.makeText(getApplicationContext(), "Bombou", Toast.LENGTH_SHORT).show();
             }
             else
@@ -66,7 +65,12 @@ public class MapsActivity extends Activity {
         }
     }
 	
-	// método que adiciona um marcador
+	/**
+	 * Method to add a marker on the map based on location
+	 * 
+	 * @param ll
+	 * @param venueName
+	 */
 	public static void addMarker(LatLng ll, String venueName){
 		MarkerOptions markerOptions = new MarkerOptions();
 		markerOptions.position(ll);

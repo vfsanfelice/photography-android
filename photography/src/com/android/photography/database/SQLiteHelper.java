@@ -2,11 +2,9 @@ package com.android.photography.database;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.android.photography.model.GalleryInfo;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,6 +12,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.android.photography.model.GalleryInfo;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 	//Database version
@@ -92,7 +92,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	 * Método de listagem de todos registros do banco de dados
 	 */
 	public List<GalleryInfo> getAllGalleryInfo(){
-		List<GalleryInfo> list = new LinkedList<GalleryInfo>();
+		List<GalleryInfo> list = new ArrayList<GalleryInfo>();
 		
 		String query = "SELECT * FROM " + TABLE_GALLERYINFO;
 		

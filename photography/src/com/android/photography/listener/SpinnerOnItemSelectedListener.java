@@ -100,8 +100,8 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setDate(date);
 		sqlhelper.add(gi);
 		
-		// Lista todas fotos existentes em galerias
-		//sqlhelper.getAllGalleryInfo();
+		// Lista no log todas fotos existentes em galerias
+		sqlhelper.getAllGalleryInfo();
 	}
 	
 	/**
