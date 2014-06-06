@@ -32,6 +32,10 @@ public class GalleryActivity extends Activity{
 		String galleryName = intent.getStringExtra("galleryName");
 		setTitle(galleryName);
 		
+		String galleryNameByMarker = intent.getStringExtra("markerGallery");
+		setTitle(galleryNameByMarker);
+		Toast.makeText(GalleryActivity.this, "Galeria: "+ galleryNameByMarker, Toast.LENGTH_SHORT).show();
+		
 		GridView gridView = (GridView) findViewById(R.id.gridView);
 		gridView.setAdapter(new PictureAdapter(this, imagens));
 		

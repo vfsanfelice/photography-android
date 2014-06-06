@@ -152,8 +152,16 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 			// Caminho e nome da fotografia copiada, sendo adicionada na pasta
 			// correta de acordo com a escolha de localização pelo usuário
-			File newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + "_1.jpg");
-
+			File newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + ".jpg");
+			
+			// Váriável de auxílio para salvar fotos com mesmo nome, com o contador no final
+			int num = 0;
+			
+			while(newFile.exists()){
+				num++;
+				newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + "_" +num +".jpg");
+			}
+			
 			Log.d("newFile", newFile.getName());
 			// newFile.getName() retorna Localizazao_Data.jpg
 

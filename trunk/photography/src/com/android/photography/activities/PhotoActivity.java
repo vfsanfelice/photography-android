@@ -117,7 +117,7 @@ public class PhotoActivity extends Activity {
 		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.latitudeFS), (TextView) findViewById(R.id.longitudeFS),
 				(TextView) findViewById(R.id.legenda), Double.toString(latitude), Double.toString(longitude)));
 	}
-	
+
 	/**
 	 * Private class responsible for work with WebService
 	 */
@@ -143,7 +143,8 @@ public class PhotoActivity extends Activity {
 		}
 
 		/**
-		 * Method that calls the WebService in background and returns the response of the HTTP request
+		 * Method that calls the WebService in background and returns the
+		 * response of the HTTP request
 		 */
 		@Override
 		protected String doInBackground(Void... params) {
@@ -180,10 +181,10 @@ public class PhotoActivity extends Activity {
 
 			return text;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(PhotoActivity.this, "Carregando...", "Aguarde enquanto carregamos a lista de lugares...", false, false);
+			progressDialog = ProgressDialog.show(PhotoActivity.this, "Carregando...", "Aguarde enquanto é carregada a lista de lugares...", false, false);
 		}
 
 		protected void onProgressUpdate(Integer... values) {
@@ -194,9 +195,10 @@ public class PhotoActivity extends Activity {
 		 * Método executado após a realização do POST do WebService Quando o
 		 * WebService termina sua execução, realiza os comandos desejados
 		 */
-		
+
 		/**
-		 * Method executed in response to DoInBackground that capture the return of the HTTP request and parse the JSON using GSON library
+		 * Method executed in response to DoInBackground that capture the return
+		 * of the HTTP request and parse the JSON using GSON library
 		 */
 		@Override
 		protected void onPostExecute(String results) {
