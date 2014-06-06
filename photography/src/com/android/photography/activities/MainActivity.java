@@ -179,16 +179,4 @@ public class MainActivity extends Activity {
 			}
 		});
 	}	
-	
-	/*
-	 * Fazer entrar direto no método de openCamera  
-	 */
-	
-//	@Override
-//	protected void onNewIntent(Intent intent) {
-//		//super.onNewIntent(intent);
-//		if(intent.getStringExtra("methodName").equals("openCamera")){
-//		      openCamera(null);
-//		}
-//	}
 }
