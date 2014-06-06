@@ -54,7 +54,7 @@
         <activity android:name="com.android.photography.activities.GalleryActivity"
             	  android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="android.photography.activities.CameraActivity" 
+        <activity android:name="com.android.photography.activities.CameraActivity" 
                   android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.android.photography.PicturesActivity"

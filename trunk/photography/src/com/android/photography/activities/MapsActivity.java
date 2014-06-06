@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends Activity {
 
-	protected static GoogleMap map;
+	protected GoogleMap map;
 	protected Marker marker;
 	protected LatLng latlng;
 	protected Location location;
@@ -37,49 +37,51 @@ public class MapsActivity extends Activity {
 		setContentView(R.layout.maps_layout);
 		configureMap();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		configureMap();
 	}
-	
+
 	/**
 	 * Verify if the map exists and add markers based on database
 	 */
-	public void configureMap()
-    {
-            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-            
-            if (map != null)
-            {	
-            	map.setMyLocationEnabled(true);
-            	SQLiteHelper db = new SQLiteHelper(this);
-            	List<GalleryInfo> listOfGalleryInfo = new ArrayList<GalleryInfo>(db.getAllGalleryInfo());
-            	
-            	for (int i = 0; i < listOfGalleryInfo.size(); i++){
-            		latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
-            		addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
-            	}
-            }
-            else
-                Toast.makeText(getApplicationContext(), "Unable to create Maps", Toast.LENGTH_SHORT).show();
-    }
-	
+	public void configureMap() {
+		if (map == null) {
+			map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+			if (map != null) {
+				map.setMyLocationEnabled(true);
+				SQLiteHelper db = new SQLiteHelper(this);
+				List<GalleryInfo> listOfGalleryInfo = new ArrayList<GalleryInfo>(db.getAllGalleryInfo());
+
+				for (int i = 0; i < listOfGalleryInfo.size(); i++) {
+					latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
+					addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
+				}
+			}
+
+			else {
+				Toast.makeText(getApplicationContext(), "Unable to create Maps", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
 	/**
 	 * Method to add a marker on the map based on location
 	 * 
 	 * @param ll
 	 * @param venueName
 	 */
-	public void addMarker(LatLng ll, String venueName){
+	public void addMarker(LatLng ll, String venueName) {
 		MarkerOptions markerOptions = new MarkerOptions();
 		markerOptions.position(ll);
 		markerOptions.title(venueName);
 		map.addMarker(markerOptions);
-		
+
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-			
+
 			@Override
 			public void onInfoWindowClick(Marker marker) {
 				Intent intent = new Intent(MapsActivity.this, GalleryActivity.class);

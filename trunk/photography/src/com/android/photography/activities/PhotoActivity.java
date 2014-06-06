@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.photography.R;
 import com.android.photography.listener.SpinnerOnItemSelectedListener;
@@ -204,16 +205,15 @@ public class PhotoActivity extends Activity {
 		protected void onPostExecute(String results) {
 			if (results != null) {
 				progressDialog.dismiss();
-				// Mapeamento da variável results (json retornado do WebService)
-				// com o GSON em classes java
+				// Mapeamento da variável results (json retornado do WebService) com o GSON em classes java
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
 				jobj = jobj.getAsJsonObject("response");
+				
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
 
-				// Popula o spinner com os valores das venues retornados pelo WS
-				// e parseados pelo GSON
+				// Popula o spinner com os valores das venues retornados pelo WS e parseados pelo GSON
 				populateLocationSpinner(venues);
 
 				// Escuta o valor selecionado no spinner
@@ -242,6 +242,7 @@ public class PhotoActivity extends Activity {
 							SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel);
 							Intent intent = new Intent(v.getContext(), MainActivity.class);
 							startActivity(intent);
+							finish();
 
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -250,7 +251,15 @@ public class PhotoActivity extends Activity {
 				});
 
 				button.setEnabled(true);
+			} else {
+				Toast.makeText(getApplicationContext(), "deu pau no ws", Toast.LENGTH_LONG).show();
 			}
+		}
+
+		@Override
+		protected void onCancelled(String result) {
+			// TODO Auto-generated method stub
+			super.onCancelled(result);
 		}
 	}
 
