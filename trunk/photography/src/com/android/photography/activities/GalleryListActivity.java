@@ -51,7 +51,7 @@ public class GalleryListActivity extends Activity {
 			list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Intent intent = new Intent(GalleryListActivity.this, GalleryActivity.class);
+					Intent intent = new Intent(GalleryListActivity.this, ActualGalleryActivity.class);
 					intent.putExtra("galleryName", arrayOfGallery[+position]);
 					startActivity(intent);
 				}

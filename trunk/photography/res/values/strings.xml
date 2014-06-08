@@ -16,5 +16,5 @@
     <string name="galleryName">galleryName</string>
     <string name="save">Salvar</string>
     <string name="gallery_activity_title">Galeria</string>
-
+	<string name="reload">Recarregar</string>
 </resources>

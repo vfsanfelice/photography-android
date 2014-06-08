@@ -39,11 +39,13 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 	
+	/**
+	 * Method that starts the CameraActivity when button clicked on Main Screen
+	 */
 	public void openCamera() {
 		final Context context = this;
 		button = (Button) findViewById(R.id.camerabutton);
@@ -57,6 +59,9 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * Method that starts the GalleryListActivity when button clicked on Main Screen
+	 */
 	public void openGallery() {
 		final Context context = this;
 		button = (Button) findViewById(R.id.gallerybutton);
@@ -69,7 +74,10 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-
+	
+	/**
+	 * Method that starts the MapsActivity when button clicked on Main Screen
+	 */
 	public void mapsButton() {
 		final Context context = this;
 		button = (Button) findViewById(R.id.mapsbutton);
