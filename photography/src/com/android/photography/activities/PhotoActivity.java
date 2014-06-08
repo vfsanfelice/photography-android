@@ -79,13 +79,8 @@ public class PhotoActivity extends Activity {
 
 	private void previewCapturedImage(String fileUri) {
 		try {
-			// imgPreview.setVisibility(View.VISIBLE);
-
-			// bimatp factory
 			BitmapFactory.Options options = new BitmapFactory.Options();
 
-			// downsizing image as it throws OutOfMemory Exception for larger
-			// images
 			options.inSampleSize = 8;
 
 			final Bitmap bitmap = BitmapFactory.decodeFile(fileUri, options);
@@ -102,7 +97,6 @@ public class PhotoActivity extends Activity {
 
 	public void populateLocationSpinner(VenuesList vl) {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		// for no json, pegando os nomes das locations e populando o spinner
 		List<String> list = new ArrayList<String>();
 		for (Venue venue : vl.getVenues()) {
 			list.add(venue.getName());
@@ -205,7 +199,7 @@ public class PhotoActivity extends Activity {
 		protected void onPostExecute(String results) {
 			if (results != null) {
 				progressDialog.dismiss();
-				// Mapeamento da variável results (json retornado do WebService) com o GSON em classes java
+				// Mapping the results variable (JSON returned from WebService) with GSON into java classes
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
@@ -213,7 +207,7 @@ public class PhotoActivity extends Activity {
 				
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
 
-				// Popula o spinner com os valores das venues retornados pelo WS e parseados pelo GSON
+				// Populates the spinner with the values returnd by the venues WS and parsed by GSON
 				populateLocationSpinner(venues);
 
 				// Escuta o valor selecionado no spinner
@@ -258,7 +252,6 @@ public class PhotoActivity extends Activity {
 
 		@Override
 		protected void onCancelled(String result) {
-			// TODO Auto-generated method stub
 			super.onCancelled(result);
 		}
 	}
