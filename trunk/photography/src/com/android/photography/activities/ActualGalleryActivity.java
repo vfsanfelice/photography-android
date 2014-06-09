@@ -39,8 +39,18 @@ public class ActualGalleryActivity extends Activity {
 			String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 			Intent intent = getIntent();
 			String galleryName = intent.getStringExtra("galleryName");
-			setTitle(galleryName);
-			targetDirectory = new File(root_sd + File.separator + galleryName);
+			if(galleryName != null){
+				setTitle(galleryName);
+				String galleryPath = (galleryName).replace(" ", "");
+				targetDirectory = new File(root_sd + File.separator + galleryPath);
+			}
+			
+			String markerGallery = intent.getStringExtra("markerGallery");
+			if(markerGallery != null){
+				setTitle(markerGallery);
+				String galleryPath = (markerGallery).replace(" ", "");
+				targetDirectory = new File(root_sd + File.separator + galleryPath);
+			}
 			imageAdapter.clear();
 
 			super.onPreExecute();
@@ -91,23 +101,23 @@ public class ActualGalleryActivity extends Activity {
 
 		gridview.setOnItemClickListener(myOnItemClickListener);
 
-		Button buttonReload = (Button) findViewById(R.id.reloadButton);
-		buttonReload.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-
-				// Cancel the previous running task, if exist.
-				myAsyncTaskLoadFiles.cancel(true);
-
-				// new another ImageAdapter, to prevent the adapter have
-				// mixed files
-				myImageAdapter = new ImageAdapter(ActualGalleryActivity.this);
-				gridview.setAdapter(myImageAdapter);
-				myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
-				myAsyncTaskLoadFiles.execute();
-			}
-		});
+//		Button buttonReload = (Button) findViewById(R.id.reloadButton);
+//		buttonReload.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//
+//				// Cancel the previous running task, if exist.
+//				myAsyncTaskLoadFiles.cancel(true);
+//
+//				// new another ImageAdapter, to prevent the adapter have
+//				// mixed files
+//				myImageAdapter = new ImageAdapter(ActualGalleryActivity.this);
+//				gridview.setAdapter(myImageAdapter);
+//				myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
+//				myAsyncTaskLoadFiles.execute();
+//			}
+//		});
 
 	}
 
