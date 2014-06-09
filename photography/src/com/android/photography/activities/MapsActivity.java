@@ -59,13 +59,9 @@ public class MapsActivity extends Activity {
 			if (map != null) {
 				map.clear();
 				map.setMyLocationEnabled(true);
-				SQLiteHelper db = new SQLiteHelper(this);
-				List<GalleryInfo> listOfGalleryInfo = new ArrayList<GalleryInfo>(db.getAllGalleryInfo());
 				
-				for (int i = 0; i < listOfGalleryInfo.size(); i++) {
-					latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
-					addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
-				}
+				checkDatabaseAndFolders();
+				
 			} else {
 				Toast.makeText(getApplicationContext(), "Não foi possível criar o mapa.", Toast.LENGTH_SHORT).show();
 			}
@@ -88,9 +84,7 @@ public class MapsActivity extends Activity {
 
 			@Override
 			public void onInfoWindowClick(Marker marker) {
-				Intent intent = new Intent(MapsActivity.this, GalleryActivity.class);
-				// TODO Fazer funcionar a galeria aqui, usando a nova galeria
-				//Intent intent = new Intent(MapsActivity.this, ActualGalleryActivity.class);
+				Intent intent = new Intent(MapsActivity.this, ActualGalleryActivity.class);
 				intent.putExtra("markerGallery", marker.getTitle());
 				startActivity(intent);
 			}
