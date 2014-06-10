@@ -16,7 +16,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.photography.R;
-import com.android.photography.listener.GPSTracker;
+import com.android.photography.listener.GPSLocationListener;
 
 public class CameraActivity extends Activity {
 
@@ -53,8 +53,9 @@ public class CameraActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			// Successfully captured the image! Display it in image view using previewCapturedImage();
-			GPSTracker gps = new GPSTracker(this);
+			// Successfully captured the image! Display it in image view using
+			// previewCapturedImage();
+			GPSLocationListener gps = new GPSLocationListener(this);
 			latitude = gps.getLatitude();
 			longitude = gps.getLongitude();
 
@@ -86,7 +87,7 @@ public class CameraActivity extends Activity {
 				return null;
 			}
 		}
-		
+
 		// Create first name for file
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 		File photo = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");

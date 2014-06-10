@@ -199,15 +199,17 @@ public class PhotoActivity extends Activity {
 		protected void onPostExecute(String results) {
 			if (results != null) {
 				progressDialog.dismiss();
-				// Mapping the results variable (JSON returned from WebService) with GSON into java classes
+				// Mapping the results variable (JSON returned from WebService)
+				// with GSON into java classes
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
 				jobj = jobj.getAsJsonObject("response");
-				
+
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
 
-				// Populates the spinner with the values returnd by the venues WS and parsed by GSON
+				// Populates the spinner with the values returnd by the venues
+				// WS and parsed by GSON
 				populateLocationSpinner(venues);
 
 				// Escuta o valor selecionado no spinner
@@ -246,7 +248,7 @@ public class PhotoActivity extends Activity {
 
 				button.setEnabled(true);
 			} else {
-				Toast.makeText(getApplicationContext(), "deu pau no ws", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Problem in WebService", Toast.LENGTH_LONG).show();
 			}
 		}
 

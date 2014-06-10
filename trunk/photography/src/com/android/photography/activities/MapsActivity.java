@@ -33,7 +33,7 @@ public class MapsActivity extends Activity {
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	private File file;
 	String[] arrayOfGallery;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,9 +59,9 @@ public class MapsActivity extends Activity {
 			if (map != null) {
 				map.clear();
 				map.setMyLocationEnabled(true);
-				
+
 				checkDatabaseAndFolders();
-				
+
 			} else {
 				Toast.makeText(getApplicationContext(), "Não foi possível criar o mapa.", Toast.LENGTH_SHORT).show();
 			}
@@ -84,18 +84,17 @@ public class MapsActivity extends Activity {
 
 			@Override
 			public void onInfoWindowClick(Marker marker) {
-				Intent intent = new Intent(MapsActivity.this, ActualGalleryActivity.class);
+				Intent intent = new Intent(MapsActivity.this, GalleryActivity.class);
 				intent.putExtra("markerGallery", marker.getTitle());
 				startActivity(intent);
 			}
 		});
 	}
-	
-	
+
 	/**
 	 * Method to verify database and SD card to keep consistency between them
 	 */
-	public void checkDatabaseAndFolders(){
+	public void checkDatabaseAndFolders() {
 		SQLiteHelper db = new SQLiteHelper(this);
 		List<GalleryInfo> listOfGalleryInfo = new ArrayList<GalleryInfo>(db.getAllGalleryInfo());
 
@@ -103,18 +102,15 @@ public class MapsActivity extends Activity {
 			String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 			file = new File(root_sd);
 			File lista[] = file.listFiles();
-			
+
 			for (int j = 0; j < lista.length; j++) {
 				String galleryName = lista[j].getName();
 				if (galleryName.indexOf(".jpg") < 0) {
-					if (lista[j].getName().equals((listOfGalleryInfo.get(i).getVenueName()).replace(" ", ""))){
-						Toast.makeText(this, "bombou o check", Toast.LENGTH_SHORT).show();
+					if (lista[j].getName().equals((listOfGalleryInfo.get(i).getVenueName()).replace(" ", ""))) {
 						latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
 						addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
-					}
-					else {
+					} else {
 						db.delete(listOfGalleryInfo.get(i));
-						Toast.makeText(this, "não bombou o check", Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
