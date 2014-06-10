@@ -85,7 +85,7 @@ public class GalleryActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.actual_gallery_layout);
+		setContentView(R.layout.gallery_layout);
 
 		Intent intent = getIntent();
 		String galleryName = intent.getStringExtra("galleryName");

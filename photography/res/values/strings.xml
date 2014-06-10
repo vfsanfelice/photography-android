@@ -17,4 +17,5 @@
     <string name="save">Salvar</string>
     <string name="gallery_activity_title">Galeria</string>
 	<string name="reload">Recarregar</string>
+	<string name="spinner_label">Escolha uma localização:</string>
 </resources>
