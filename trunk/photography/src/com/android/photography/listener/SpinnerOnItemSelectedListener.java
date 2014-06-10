@@ -28,17 +28,17 @@ import com.google.android.gms.maps.model.LatLng;
 public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 	VenuesList vl;
-	TextView t1, t2, t3;
+	TextView location, name, actualDate;
 	static Venue currentVenue;
 	static String latitudeGPS, longitudeGPS;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	static LatLng latlng;
 
-	public SpinnerOnItemSelectedListener(VenuesList vl, TextView t1, TextView t2, TextView t3, String latitudeGPS, String longitudeGPS) {
+	public SpinnerOnItemSelectedListener(VenuesList vl, TextView location, TextView name, TextView actualDate, String latitudeGPS, String longitudeGPS) {
 		this.vl = vl;
-		this.t1 = t1;
-		this.t2 = t2;
-		this.t3 = t3;
+		this.location = location;
+		this.name = name;
+		this.actualDate = actualDate;
 		this.latitudeGPS = latitudeGPS;
 		this.longitudeGPS = longitudeGPS;
 	}
@@ -49,9 +49,12 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 		for (Venue venue : vl.getVenues()) {
 			if (venue.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
-				t1.setText("Latitude do FS: " + venue.location.lat);
-				t2.setText("Longitude do FS: " + venue.location.lng);
-				t3.setText("Localização: " + venue.name);
+				location.setText("Localização: " + venue.name);
+				Date date = new Date();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+				String stringdateformatter = dateFormat.format(date);
+				actualDate.setText("Data: "+ stringdateformatter);
+				
 				currentVenue = venue;
 			}
 		}

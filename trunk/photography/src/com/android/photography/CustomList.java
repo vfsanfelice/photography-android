@@ -12,7 +12,7 @@ public class CustomList extends ArrayAdapter<String> {
 	private final String[] arrayOfGallery;
 
 	public CustomList(Activity activityContext, String[] arrayOfGallery) {
-		super(activityContext, R.layout.list_single, arrayOfGallery);
+		super(activityContext, R.layout.customlist_layout, arrayOfGallery);
 		this.activityContext = activityContext;
 		this.arrayOfGallery = arrayOfGallery;
 	}
@@ -20,7 +20,7 @@ public class CustomList extends ArrayAdapter<String> {
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		LayoutInflater inflater = activityContext.getLayoutInflater();
-		View rowView = inflater.inflate(R.layout.list_single, null, true);
+		View rowView = inflater.inflate(R.layout.customlist_layout, null, true);
 		TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 		txtTitle.setText(arrayOfGallery[position]);
 		return rowView;

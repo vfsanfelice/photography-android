@@ -60,7 +60,7 @@ public class PhotoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.picture_layout);
+		setContentView(R.layout.photo_layout);
 
 		button = (Button) findViewById(R.id.save);
 		button.setEnabled(false);
@@ -109,8 +109,7 @@ public class PhotoActivity extends Activity {
 
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.latitudeFS), (TextView) findViewById(R.id.longitudeFS),
-				(TextView) findViewById(R.id.legenda), Double.toString(latitude), Double.toString(longitude)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name),(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
 	}
 
 	/**
@@ -215,20 +214,20 @@ public class PhotoActivity extends Activity {
 				// Escuta o valor selecionado no spinner
 				addListenerOnSpinnerItemSelection();
 
-				TextView legenda = (TextView) findViewById(R.id.legenda);
+				TextView legenda = (TextView) findViewById(R.id.location);
 				legenda.setText("Localização: " + venues.getVenues().get(0).name);
-				TextView nome = (TextView) findViewById(R.id.nome);
+				TextView nome = (TextView) findViewById(R.id.name);
 				nome.setText("Nome do arquivo: " + photoLabel);
 				// GPS LATLNG
-				TextView tv1 = (TextView) findViewById(R.id.latitude);
-				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
-				TextView tv2 = (TextView) findViewById(R.id.longitude);
-				tv2.setText("Longitude do GPS: " + Double.toString(longitude));
+//				TextView tv1 = (TextView) findViewById(R.id.latitude);
+//				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
+//				TextView tv2 = (TextView) findViewById(R.id.longitude);
+//				tv2.setText("Longitude do GPS: " + Double.toString(longitude));
 				// Foursquare LATLNG
-				TextView tv3 = (TextView) findViewById(R.id.latitudeFS);
-				tv3.setText("Latitude do FS: " + venues.getVenues().get(0).location.lat);
-				TextView tv4 = (TextView) findViewById(R.id.longitudeFS);
-				tv4.setText("Longitude do FS: " + venues.getVenues().get(0).location.lng);
+//				TextView tv3 = (TextView) findViewById(R.id.latitudeFS);
+//				tv3.setText("Latitude do FS: " + venues.getVenues().get(0).location.lat);
+//				TextView tv4 = (TextView) findViewById(R.id.longitudeFS);
+//				tv4.setText("Longitude do FS: " + venues.getVenues().get(0).location.lng);
 				button = (Button) findViewById(R.id.save);
 				button.setOnClickListener(new OnClickListener() {
 

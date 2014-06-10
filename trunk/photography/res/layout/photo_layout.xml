@@ -9,40 +9,51 @@
         android:layout_height="300dp"
         android:contentDescription="@string/preview" />
     
+    <TextView
+        android:id="@+id/spinnerlabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/spinner_label" />
+    
     <Spinner
         android:id="@+id/locationSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/legenda"
+        android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <TextView
-        android:id="@+id/nome"
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <TextView
-        android:id="@+id/latitude"
+        android:id="@+id/actual_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
     
-    <TextView
-        android:id="@+id/longitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<!--     <TextView -->
+<!--         android:id="@+id/latitude" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"/> -->
+    
+<!--     <TextView -->
+<!--         android:id="@+id/longitude" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"/> -->
 
-    <TextView
-        android:id="@+id/latitudeFS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<!--     <TextView -->
+<!--         android:id="@+id/latitudeFS" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"/> -->
     
-    <TextView
-        android:id="@+id/longitudeFS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<!--     <TextView -->
+<!--         android:id="@+id/longitudeFS" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"/> -->
     
     <Button
         android:id="@+id/save"
