@@ -60,11 +60,11 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
-
 	}
-	
+
 	/**
-	 * Realize all operations to create the physic structure in SD card and save the picture.
+	 * Realize all operations to create the physic structure in SD card and save
+	 * the picture.
 	 * 
 	 * @param v
 	 * @param photoLabel
@@ -75,13 +75,8 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		Date date = new Date();
 		insertPictureOnDatabase(context, date);
 		createGalleryStructure(photoLabel, date);
-
-		// Criar um marcador de acordo com a latlng escolhida no WebService
-		latlng = new LatLng(currentVenue.getLocation().getLat(), currentVenue.getLocation().getLng());
-		// MapsActivity.addMarker(latlng, currentVenue.name);
-		
 	}
-	
+
 	/**
 	 * Insert on database the information about the picture taken
 	 * 
@@ -99,13 +94,14 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
 		gi.setDate(date);
 		sqlhelper.add(gi);
-		
+
 		// Lista no log todas fotos existentes em galerias
 		sqlhelper.getAllGalleryInfo();
 	}
-	
+
 	/**
-	 * Create the folder with the name chosen by the user and save the picture in this folder
+	 * Create the folder with the name chosen by the user and save the picture
+	 * in this folder
 	 * 
 	 * @param photoLabel
 	 * @param date
@@ -122,14 +118,15 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 				Log.d(IMAGE_DIRECTORY_NAME, "Ops! Falha ao criar o diretório " + IMAGE_DIRECTORY_NAME + File.separator + (currentVenue.name).replace(" ", ""));
 			}
 		}
-		
+
 		moveFileToNewFolder(photoLabel, date, mediaStorageDir);
 
 	}
-	
+
 	/**
-	 * Move the initial picture file to the destination folder based on location that user selects.
-	 * Execute the copy and delete process to the original file.
+	 * Move the initial picture file to the destination folder based on location
+	 * that user selects. Execute the copy and delete process to the original
+	 * file.
 	 * 
 	 * @param photoLabel
 	 * @param date
@@ -153,15 +150,16 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 			// Caminho e nome da fotografia copiada, sendo adicionada na pasta
 			// correta de acordo com a escolha de localização pelo usuário
 			File newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + ".jpg");
-			
-			// Váriável de auxílio para salvar fotos com mesmo nome, com o contador no final
+
+			// Váriável de auxílio para salvar fotos com mesmo nome, com o
+			// contador no final
 			int num = 0;
-			
-			while(newFile.exists()){
+
+			while (newFile.exists()) {
 				num++;
-				newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + "_" +num +".jpg");
+				newFile = new File(mediaStorageDir + File.separator + (currentVenue.name).replace(" ", "") + "_" + stringdateformatter + "_" + num + ".jpg");
 			}
-			
+
 			Log.d("newFile", newFile.getName());
 			// newFile.getName() retorna Localizazao_Data.jpg
 

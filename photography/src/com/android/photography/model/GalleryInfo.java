@@ -1,12 +1,11 @@
 package com.android.photography.model;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class GalleryInfo {
-	
+
 	private int id;
 	private String venueName;
 	private String latGPS;
@@ -14,10 +13,11 @@ public class GalleryInfo {
 	private String latVenue;
 	private String lngVenue;
 	private Date date;
-	
-	public GalleryInfo(){};
-	
-	public GalleryInfo(String venueName, String latGPS, String lngGPS, String latVenue, String lngVenue, Date date){
+
+	public GalleryInfo() {
+	};
+
+	public GalleryInfo(String venueName, String latGPS, String lngGPS, String latVenue, String lngVenue, Date date) {
 		super();
 		this.venueName = venueName;
 		this.latGPS = latGPS;
@@ -26,7 +26,7 @@ public class GalleryInfo {
 		this.lngVenue = lngVenue;
 		this.date = date;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -42,7 +42,7 @@ public class GalleryInfo {
 	public void setVenueName(String venueName) {
 		this.venueName = venueName;
 	}
-	
+
 	public String getLatGPS() {
 		return latGPS;
 	}
@@ -50,7 +50,7 @@ public class GalleryInfo {
 	public void setLatGPS(String latGPS) {
 		this.latGPS = latGPS;
 	}
-	
+
 	public String getLngGPS() {
 		return lngGPS;
 	}
@@ -58,7 +58,7 @@ public class GalleryInfo {
 	public void setLngGPS(String lngGPS) {
 		this.lngGPS = lngGPS;
 	}
-	
+
 	public String getLatVenue() {
 		return latVenue;
 	}
@@ -74,7 +74,7 @@ public class GalleryInfo {
 	public void setLngVenue(String lngVenue) {
 		this.lngVenue = lngVenue;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
@@ -87,12 +87,6 @@ public class GalleryInfo {
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		String stringdateformatter = dateFormat.format(date);
-		return "{id:" + id + 
-			   ", venueName: " + venueName +	
-			   ", latGPS:" + latGPS + 
-			   ", lngGPS:" + lngGPS +
-			   ", latVenue: " + latVenue + 
-			   ", lngVenue: " + lngVenue +
-			   ", date:" + stringdateformatter;
+		return "{id:" + id + ", venueName: " + venueName + ", latGPS:" + latGPS + ", lngGPS:" + lngGPS + ", latVenue: " + latVenue + ", lngVenue: " + lngVenue + ", date:" + stringdateformatter;
 	}
 }

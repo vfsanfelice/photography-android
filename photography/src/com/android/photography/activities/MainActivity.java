@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.android.photography.R;
-import com.android.photography.listener.GPSTracker;
+import com.android.photography.listener.GPSLocationListener;
 
 public class MainActivity extends Activity {
 
@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 		openGallery();
 		mapsButton();
 
-		GPSTracker gps = new GPSTracker(this);
+		GPSLocationListener gps = new GPSLocationListener(this);
 
 		if (gps.canGetLocation()) {
 			latitude = gps.getLatitude();

@@ -33,9 +33,9 @@ public class GalleryListActivity extends Activity {
 
 		String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 		file = new File(root_sd);
-		
+
 		File lista[] = file.listFiles();
-		
+
 		for (int i = 0; i < lista.length; i++) {
 			String galleryName = lista[i].getName();
 			if (galleryName.indexOf(".jpg") < 0) {
@@ -43,7 +43,7 @@ public class GalleryListActivity extends Activity {
 			}
 		}
 		arrayOfGallery = listOfGallery.toArray(new String[listOfGallery.size()]);
-		
+
 		if (arrayOfGallery.length > 0) {
 			CustomList adapter = new CustomList(GalleryListActivity.this, arrayOfGallery);
 			list = (ListView) findViewById(R.id.list);
@@ -51,16 +51,15 @@ public class GalleryListActivity extends Activity {
 			list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Intent intent = new Intent(GalleryListActivity.this, ActualGalleryActivity.class);
+					Intent intent = new Intent(GalleryListActivity.this, GalleryActivity.class);
 					intent.putExtra("galleryName", arrayOfGallery[+position]);
 					startActivity(intent);
 				}
 			});
-		} 
-		else {
+		} else {
 			TextView noGallery = (TextView) findViewById(R.id.noGallery);
 			noGallery.setText("Não existem galerias disponíveis!");
 		}
-			
+
 	}
 }
