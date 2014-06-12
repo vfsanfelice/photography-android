@@ -76,6 +76,14 @@ public class PhotoActivity extends Activity {
 		}
 		previewCapturedImage(this.photoPath);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+		Intent i = new Intent(PhotoActivity.this, MainActivity.class);
+		startActivity(i);
+	}
 
 	private void previewCapturedImage(String fileUri) {
 		try {
@@ -218,16 +226,6 @@ public class PhotoActivity extends Activity {
 				legenda.setText("Localização: " + venues.getVenues().get(0).name);
 				TextView nome = (TextView) findViewById(R.id.name);
 				nome.setText("Nome do arquivo: " + photoLabel);
-				// GPS LATLNG
-//				TextView tv1 = (TextView) findViewById(R.id.latitude);
-//				tv1.setText("Latitude do GPS: " + Double.toString(latitude));
-//				TextView tv2 = (TextView) findViewById(R.id.longitude);
-//				tv2.setText("Longitude do GPS: " + Double.toString(longitude));
-				// Foursquare LATLNG
-//				TextView tv3 = (TextView) findViewById(R.id.latitudeFS);
-//				tv3.setText("Latitude do FS: " + venues.getVenues().get(0).location.lat);
-//				TextView tv4 = (TextView) findViewById(R.id.longitudeFS);
-//				tv4.setText("Longitude do FS: " + venues.getVenues().get(0).location.lng);
 				button = (Button) findViewById(R.id.save);
 				button.setOnClickListener(new OnClickListener() {
 

@@ -29,6 +29,8 @@ public class GalleryListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gallerylist_layout);
 
+		clearUnsavedPictures();
+		
 		listOfGallery = new ArrayList<String>();
 
 		String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
@@ -61,5 +63,18 @@ public class GalleryListActivity extends Activity {
 			noGallery.setText("Não existem galerias disponíveis!");
 		}
 
+	}
+	
+	public void clearUnsavedPictures() {
+		String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
+		file = new File(root_sd);
+		File lista[] = file.listFiles();
+
+		for (int j = 0; j < lista.length; j++) {
+			String galleryName = lista[j].getName();
+			if (galleryName.contains(".jpg")) {
+				lista[j].delete();
+			}
+		}
 	}
 }

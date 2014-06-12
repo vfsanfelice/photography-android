@@ -48,6 +48,12 @@ public class MapsActivity extends Activity {
 		super.onResume();
 		configureMap();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+	}
 
 	/**
 	 * Verify if the map exists and add markers based on database
