@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, CameraActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
@@ -77,6 +78,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, GalleryListActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
@@ -93,6 +95,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, MapsActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
