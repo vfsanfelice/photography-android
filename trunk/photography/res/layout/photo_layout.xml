@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/photoPreview"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         android:contentDescription="@string/preview" />
     
     <TextView
@@ -34,26 +34,6 @@
         android:id="@+id/actual_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    
-<!--     <TextView -->
-<!--         android:id="@+id/latitude" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content"/> -->
-    
-<!--     <TextView -->
-<!--         android:id="@+id/longitude" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content"/> -->
-
-<!--     <TextView -->
-<!--         android:id="@+id/latitudeFS" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content"/> -->
-    
-<!--     <TextView -->
-<!--         android:id="@+id/longitudeFS" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content"/> -->
     
     <Button
         android:id="@+id/save"

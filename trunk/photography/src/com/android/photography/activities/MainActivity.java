@@ -43,6 +43,12 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+	}
+	
 	/**
 	 * Method that starts the CameraActivity when button clicked on Main Screen
 	 */

@@ -33,6 +33,13 @@ public class CameraActivity extends Activity {
 		setContentView(R.layout.camera_layout);
 		openCamera();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent i = new Intent(CameraActivity.this, MainActivity.class);
+		startActivity(i);
+	}
 
 	// capture image and callback calls preview activity
 	public void openCamera() {
@@ -68,7 +75,9 @@ public class CameraActivity extends Activity {
 
 		} else if (resultCode == RESULT_CANCELED) {
 			// User cancelled Image capture
+			finish();
 			Toast.makeText(getApplicationContext(), "Fotografia cancelada!", Toast.LENGTH_SHORT).show();
+			
 		} else {
 			// Failed to capture image
 			Toast.makeText(getApplicationContext(), "Falha ao tentar tirar fotografia!", Toast.LENGTH_SHORT).show();

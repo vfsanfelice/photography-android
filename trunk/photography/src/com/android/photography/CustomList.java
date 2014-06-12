@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class CustomList extends ArrayAdapter<String> {
-	private final Activity activityContext;
+	private final Activity context;
 	private final String[] arrayOfGallery;
 
-	public CustomList(Activity activityContext, String[] arrayOfGallery) {
-		super(activityContext, R.layout.customlist_layout, arrayOfGallery);
-		this.activityContext = activityContext;
+	public CustomList(Activity context, String[] arrayOfGallery) {
+		super(context, R.layout.customlist_layout, arrayOfGallery);
+		this.context = context;
 		this.arrayOfGallery = arrayOfGallery;
 	}
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		LayoutInflater inflater = activityContext.getLayoutInflater();
+		LayoutInflater inflater = context.getLayoutInflater();
 		View rowView = inflater.inflate(R.layout.customlist_layout, null, true);
 		TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 		txtTitle.setText(arrayOfGallery[position]);

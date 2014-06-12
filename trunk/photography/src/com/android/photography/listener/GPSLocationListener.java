@@ -15,7 +15,7 @@ import android.util.Log;
 
 public class GPSLocationListener extends Service implements LocationListener {
 
-	private final Context mContext;
+	private final Context context;
 	boolean isGPSEnabled = false; // Flag de GPS
 	boolean isNetworkEnabled = false; // Flag de Internet
 	boolean canGetLocation = false;
@@ -32,13 +32,13 @@ public class GPSLocationListener extends Service implements LocationListener {
 	protected LocationManager locationManager;
 
 	public GPSLocationListener(Context context) {
-		this.mContext = context;
+		this.context = context;
 		getLocation();
 	}
 
 	public Location getLocation() {
 		try {
-			locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+			locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
 			// getting GPS status
 			isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -129,19 +129,19 @@ public class GPSLocationListener extends Service implements LocationListener {
 	 * lauch Settings Options
 	 * */
 	public void showSettingsAlert() {
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
 		// Mensagem do título
 		alertDialog.setTitle("GPS Desligado!");
 
 		// Mensagem principal
-		alertDialog.setMessage("Seu GPS está desligado. Ir para o menu de configuração?");
+		alertDialog.setMessage("Seu GPS está desligado. Ir para o menu de configuração? (Caso você clique cancelar, esta aplicação será fechada)");
 
 		// Ao apertar o botão de configurações
 		alertDialog.setPositiveButton("Configurações", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				mContext.startActivity(intent);
+				context.startActivity(intent);
 			}
 		});
 
@@ -176,5 +176,4 @@ public class GPSLocationListener extends Service implements LocationListener {
 	public IBinder onBind(Intent arg0) {
 		return null;
 	}
-
 }
