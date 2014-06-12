@@ -62,7 +62,14 @@ public class GalleryListActivity extends Activity {
 			TextView noGallery = (TextView) findViewById(R.id.noGallery);
 			noGallery.setText("Não existem galerias disponíveis!");
 		}
-
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+		Intent i = new Intent(GalleryListActivity.this, MainActivity.class);
+		startActivity(i);
 	}
 	
 	public void clearUnsavedPictures() {

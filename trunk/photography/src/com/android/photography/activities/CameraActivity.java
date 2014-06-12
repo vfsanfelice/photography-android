@@ -37,8 +37,9 @@ public class CameraActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		Intent i = new Intent(CameraActivity.this, MainActivity.class);
-		startActivity(i);
+//		Intent i = new Intent(CameraActivity.this, MainActivity.class);
+//		startActivity(i);
+		finish();
 	}
 
 	// capture image and callback calls preview activity
@@ -72,6 +73,7 @@ public class CameraActivity extends Activity {
 			intent.putExtra("latitude", latitude);
 			intent.putExtra("longitude", longitude);
 			startActivity(intent);
+			finish();
 
 		} else if (resultCode == RESULT_CANCELED) {
 			// User cancelled Image capture

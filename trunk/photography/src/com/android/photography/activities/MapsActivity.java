@@ -53,6 +53,8 @@ public class MapsActivity extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		finish();
+		Intent i = new Intent(MapsActivity.this, MainActivity.class);
+		startActivity(i);
 	}
 
 	/**
