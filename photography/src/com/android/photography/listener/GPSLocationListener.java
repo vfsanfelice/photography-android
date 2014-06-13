@@ -1,5 +1,7 @@
 package com.android.photography.listener;
 
+import com.android.photography.activities.MainActivity;
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -149,6 +151,7 @@ public class GPSLocationListener extends Service implements LocationListener {
 		alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
+				((MainActivity) context).finish();
 			}
 		});
 
