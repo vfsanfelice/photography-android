@@ -76,7 +76,7 @@ public class PhotoActivity extends Activity {
 		}
 		previewCapturedImage(this.photoPath);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -117,7 +117,7 @@ public class PhotoActivity extends Activity {
 
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name),(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name), (TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class PhotoActivity extends Activity {
 
 				button.setEnabled(true);
 			} else {
-				Toast.makeText(getApplicationContext(), "Problem in WebService", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Problema com o Webservice.", Toast.LENGTH_SHORT).show();
 			}
 		}
 

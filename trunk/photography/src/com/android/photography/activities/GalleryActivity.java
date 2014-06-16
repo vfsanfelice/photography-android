@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.android.photography.ImageAdapter;
 import com.android.photography.R;
@@ -99,35 +98,15 @@ public class GalleryActivity extends Activity {
 
 		gridview.setOnItemClickListener(myOnItemClickListener);
 
-		// Button buttonReload = (Button) findViewById(R.id.reloadButton);
-		// buttonReload.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View arg0) {
-		//
-		// // Cancel the previous running task, if exist.
-		// myAsyncTaskLoadFiles.cancel(true);
-		//
-		// // new another ImageAdapter, to prevent the adapter have
-		// // mixed files
-		// myImageAdapter = new ImageAdapter(ActualGalleryActivity.this);
-		// gridview.setAdapter(myImageAdapter);
-		// myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
-		// myAsyncTaskLoadFiles.execute();
-		// }
-		// });
-
 	}
 
 	OnItemClickListener myOnItemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			String prompt = "remove " + (String) parent.getItemAtPosition(position);
-			Toast.makeText(getApplicationContext(), prompt, Toast.LENGTH_SHORT).show();
-			myImageAdapter.remove(position);
-			myImageAdapter.notifyDataSetChanged();
-
+			String file = (String) parent.getItemAtPosition(position);
+			Intent intent = new Intent(GalleryActivity.this, PhotoInfoActivity.class);
+			intent.putExtra("photoInfo", file);
+			startActivity(intent);
 		}
 	};
-
 }

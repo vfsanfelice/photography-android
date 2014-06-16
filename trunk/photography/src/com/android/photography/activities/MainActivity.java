@@ -31,7 +31,9 @@ public class MainActivity extends Activity {
 		if (gps.canGetLocation()) {
 			latitude = gps.getLatitude();
 			longitude = gps.getLongitude();
-			//Toast.makeText(getApplicationContext(), "Sua localização atual é: \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+			// Toast.makeText(getApplicationContext(),
+			// "Sua localização atual é: \nLat: " + latitude + "\nLong: " +
+			// longitude, Toast.LENGTH_LONG).show();
 		} else {
 			gps.showSettingsAlert();
 		}
@@ -42,13 +44,13 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		finish();
 	}
-	
+
 	/**
 	 * Method that starts the CameraActivity when button clicked on Main Screen
 	 */
@@ -65,9 +67,10 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-	
+
 	/**
-	 * Method that starts the GalleryListActivity when button clicked on Main Screen
+	 * Method that starts the GalleryListActivity when button clicked on Main
+	 * Screen
 	 */
 	public void openGallery() {
 		final Context context = this;
@@ -82,7 +85,7 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-	
+
 	/**
 	 * Method that starts the MapsActivity when button clicked on Main Screen
 	 */

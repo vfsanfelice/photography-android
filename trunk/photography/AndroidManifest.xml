@@ -60,7 +60,9 @@
         <activity android:name="com.android.photography.activities.GalleryActivity" 
             	  android:screenOrientation="portrait" >
         </activity>
-               
+		<activity android:name="com.android.photography.activities.PhotoInfoActivity"
+		          android:screenOrientation="portrait" >
+        </activity>               
         <activity android:name="com.android.photography.activities.MapsActivity" 
             	  android:screenOrientation="portrait" >
         </activity>
