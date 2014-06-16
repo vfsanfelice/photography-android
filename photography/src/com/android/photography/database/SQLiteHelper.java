@@ -125,7 +125,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		}
 		
 		return list;
-		
 	}
-			
+	
+	public GalleryInfo getGalleryInfo(String photoName){
+		String query = "SELECT * FROM " + TABLE_GALLERYINFO + "WHERE PHOTO_NAME = " + photoName;
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		return null;
+	}
 }

@@ -48,7 +48,7 @@ public class MapsActivity extends Activity {
 		super.onResume();
 		configureMap();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
