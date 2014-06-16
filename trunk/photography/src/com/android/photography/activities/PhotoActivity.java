@@ -2,6 +2,7 @@ package com.android.photography.activities;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,7 +118,8 @@ public class PhotoActivity extends Activity {
 
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name), (TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name),
+				(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
 	}
 
 	/**
@@ -204,7 +206,7 @@ public class PhotoActivity extends Activity {
 		 */
 		@Override
 		protected void onPostExecute(String results) {
-			if (results != null) {
+			if (!results.contains("Unable to resolve")) {
 				progressDialog.dismiss();
 				// Mapping the results variable (JSON returned from WebService)
 				// with GSON into java classes
@@ -212,16 +214,12 @@ public class PhotoActivity extends Activity {
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
 				jobj = jobj.getAsJsonObject("response");
-
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
-
 				// Populates the spinner with the values returnd by the venues
 				// WS and parsed by GSON
 				populateLocationSpinner(venues);
-
 				// Escuta o valor selecionado no spinner
 				addListenerOnSpinnerItemSelection();
-
 				TextView legenda = (TextView) findViewById(R.id.location);
 				legenda.setText("Localização: " + venues.getVenues().get(0).name);
 				TextView nome = (TextView) findViewById(R.id.name);
@@ -245,7 +243,11 @@ public class PhotoActivity extends Activity {
 
 				button.setEnabled(true);
 			} else {
-				Toast.makeText(getApplicationContext(), "Problema com o Webservice.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Problemas de conexão.\nPor favor verifique sua conexão!", Toast.LENGTH_SHORT).show();
+				progressDialog.dismiss();
+				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		}
 
