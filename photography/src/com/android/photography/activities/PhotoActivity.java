@@ -2,7 +2,6 @@ package com.android.photography.activities;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 

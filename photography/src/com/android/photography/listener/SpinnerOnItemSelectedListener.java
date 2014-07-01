@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.photography.database.SQLiteHelper;
 import com.android.photography.model.GalleryInfo;
@@ -33,6 +32,7 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 	static String latitudeGPS, longitudeGPS;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	static LatLng latlng;
+	public static String fileName;
 
 	public SpinnerOnItemSelectedListener(VenuesList vl, TextView location, TextView name, TextView actualDate, String latitudeGPS, String longitudeGPS) {
 		this.vl = vl;
@@ -76,8 +76,8 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 	public static void savePicture(View v, String photoLabel) throws IOException {
 		final Context context = v.getContext();
 		Date date = new Date();
-		insertPictureOnDatabase(context, date);
 		createGalleryStructure(photoLabel, date);
+		insertPictureOnDatabase(context, date);
 	}
 
 	/**
@@ -95,6 +95,7 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		gi.setLngGPS(longitudeGPS);
 		gi.setLatVenue(Double.toString(currentVenue.getLocation().getLat()));
 		gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
+		gi.setFileName(fileName);
 		gi.setDate(date);
 		sqlhelper.add(gi);
 
@@ -165,6 +166,7 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 
 			Log.d("newFile", newFile.getName());
 			// newFile.getName() retorna Localizazao_Data.jpg
+			fileName = newFile.getName();
 
 			inputStream = new FileInputStream(oldFile);
 			outputStream = new FileOutputStream(newFile);
