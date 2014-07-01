@@ -118,7 +118,7 @@ public class MapsActivity extends Activity {
 						latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
 						addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
 					} else {
-						db.delete(listOfGalleryInfo.get(i));
+						//db.delete(listOfGalleryInfo.get(i));
 					}
 				}
 			}

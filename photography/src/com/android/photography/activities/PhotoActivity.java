@@ -14,7 +14,9 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,7 +32,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.photography.R;
 import com.android.photography.listener.SpinnerOnItemSelectedListener;
@@ -126,9 +127,6 @@ public class PhotoActivity extends Activity {
 	 */
 	private class FoursquareAsyncTask extends AsyncTask<Void, Void, String> {
 
-		// pega o texto da httpentity
-		// poderia ser usado um BasicResponseHandler, passando como parametro o
-		// handler ao inves do localContext
 		protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
 			InputStream in = entity.getContent();
 
@@ -194,11 +192,6 @@ public class PhotoActivity extends Activity {
 			progressDialog.setProgress(values[0]);
 		}
 
-		/*
-		 * Método executado após a realização do POST do WebService Quando o
-		 * WebService termina sua execução, realiza os comandos desejados
-		 */
-
 		/**
 		 * Method executed in response to DoInBackground that capture the return
 		 * of the HTTP request and parse the JSON using GSON library
@@ -242,11 +235,22 @@ public class PhotoActivity extends Activity {
 
 				button.setEnabled(true);
 			} else {
-				Toast.makeText(getApplicationContext(), "Problemas de conexão.\nPor favor verifique sua conexão!", Toast.LENGTH_SHORT).show();
 				progressDialog.dismiss();
-				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-				startActivity(intent);
-				finish();
+			
+				AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
+				builder.setMessage("Problema de Conexão \nPor favor verifique sua conexão!");
+				builder.setNeutralButton("Voltar ao Menu Inicial", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//Toast.makeText(getApplicationContext(), "Problemas de conexão.\nPor favor verifique sua conexão!", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+						startActivity(intent);
+						finish();
+					}
+				});
+				
+				builder.show();
 			}
 		}
 
