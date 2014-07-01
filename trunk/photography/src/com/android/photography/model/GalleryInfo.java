@@ -12,18 +12,20 @@ public class GalleryInfo {
 	private String lngGPS;
 	private String latVenue;
 	private String lngVenue;
+	private String fileName;
 	private Date date;
 
 	public GalleryInfo() {
 	};
 
-	public GalleryInfo(String venueName, String latGPS, String lngGPS, String latVenue, String lngVenue, Date date) {
+	public GalleryInfo(String venueName, String latGPS, String lngGPS, String latVenue, String lngVenue, String fileName, Date date) {
 		super();
 		this.venueName = venueName;
 		this.latGPS = latGPS;
 		this.lngGPS = lngGPS;
 		this.latVenue = latVenue;
 		this.lngVenue = lngVenue;
+		this.fileName = fileName;
 		this.date = date;
 	}
 
@@ -75,6 +77,14 @@ public class GalleryInfo {
 		this.lngVenue = lngVenue;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public Date getDate() {
 		return date;
 	}
@@ -87,6 +97,13 @@ public class GalleryInfo {
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		String stringdateformatter = dateFormat.format(date);
-		return "{id:" + id + ", venueName: " + venueName + ", latGPS:" + latGPS + ", lngGPS:" + lngGPS + ", latVenue: " + latVenue + ", lngVenue: " + lngVenue + ", date:" + stringdateformatter;
+		return "{id:" + id + 
+				", venueName: " + venueName + 
+				", latGPS:" + latGPS + 
+				", lngGPS:" + lngGPS + 
+				", latVenue: " + latVenue + 
+				", lngVenue: " + lngVenue + 
+				", fileName: " + fileName +
+				", date:" + stringdateformatter;
 	}
 }

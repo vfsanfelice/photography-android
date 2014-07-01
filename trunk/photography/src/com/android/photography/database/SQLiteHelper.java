@@ -17,7 +17,7 @@ import com.android.photography.model.GalleryInfo;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 	//Database version
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 8;
 	//Database name
 	private static final String DATABASE_NAME = "PhotographyDB";
 	
@@ -35,6 +35,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 										  "lng_gps TEXT, " + 
 										  "lat_venue TEXT, " +
 										  "lng_venue TEXT, " +
+										  "file_name TEXT, " +
 										  "date TEXT)";
 		
 		//Criação tabela galleryinfo
@@ -57,8 +58,9 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	private static final String FIELD_LNGGPS = "lng_gps";
 	private static final String FIELD_LATVENUE = "lat_venue";
 	private static final String FIELD_LNGVENUE = "lng_venue";
+	private static final String FIELD_FILENAME = "file_name";
 	private static final String FIELD_DATE = "date";
-	private static final String[] COLUMNS = {FIELD_ID, FIELD_VENUENAME, FIELD_LATGPS, FIELD_LNGGPS, FIELD_LATVENUE, FIELD_LNGVENUE, FIELD_DATE };
+	private static final String[] COLUMNS = {FIELD_ID, FIELD_VENUENAME, FIELD_LATGPS, FIELD_LNGGPS, FIELD_LATVENUE, FIELD_LNGVENUE, FIELD_FILENAME, FIELD_DATE };
 	
 	/*
 	 * Método de inserção de registro no banco de dados
@@ -72,6 +74,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		cv.put(FIELD_LNGGPS, gi.getLngGPS());
 		cv.put(FIELD_LATVENUE, gi.getLatVenue());
 		cv.put(FIELD_LNGVENUE, gi.getLngVenue());
+		cv.put(FIELD_FILENAME, gi.getFileName());
 		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		cv.put(FIELD_DATE, dateFormat.format(gi.getDate()));
@@ -111,8 +114,9 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 					gi.setLngGPS(cursor.getString(3));
 					gi.setLatVenue(cursor.getString(4));
 					gi.setLngVenue(cursor.getString(5));
+					gi.setFileName(cursor.getString(6));
 					//gi.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString((6))));
-					gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((6))));
+					gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((7))));
 					list.add(gi);
 				} while (cursor.moveToNext());
 			}
@@ -127,10 +131,28 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		return list;
 	}
 	
-	public GalleryInfo getGalleryInfo(String photoName){
-		String query = "SELECT * FROM " + TABLE_GALLERYINFO + "WHERE PHOTO_NAME = " + photoName;
+	public GalleryInfo getPhotoInfo(String fileName){
 		SQLiteDatabase db = this.getWritableDatabase();
+		Log.d("vai", getAllGalleryInfo().toString());
+		String query = "SELECT * FROM " + TABLE_GALLERYINFO + " WHERE FILE_NAME = ?";
+		Cursor cursor = db.rawQuery(query, new String[] { fileName });
 		
-		return null;
+		GalleryInfo gi = null;
+		try {
+			if (cursor.moveToFirst() == true) {
+				gi = new GalleryInfo();
+				gi.setId(Integer.parseInt(cursor.getString(0)));
+				gi.setVenueName(cursor.getString(1));
+				gi.setLatGPS(cursor.getString(2));
+				gi.setLngGPS(cursor.getString(3));
+				gi.setLatVenue(cursor.getString(4));
+				gi.setLngVenue(cursor.getString(5));
+				gi.setFileName(cursor.getString(6));
+				gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((7))));
+			}
+		} catch (ParseException e) {
+			Log.e("error on parse", "error on parse");
+		}
+		return gi;
 	}
 }
