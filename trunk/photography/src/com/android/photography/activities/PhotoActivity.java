@@ -29,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import com.google.gson.JsonParser;
 public class PhotoActivity extends Activity {
 
 	private Button button;
+	private EditText editText;
 	private Spinner locationSpinner;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	static VenuesList venues;
@@ -119,7 +121,7 @@ public class PhotoActivity extends Activity {
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
 		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name),
-				(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude)));
+				(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude), (EditText) findViewById(R.id.editTextLocation)));
 	}
 
 	/**
@@ -216,17 +218,27 @@ public class PhotoActivity extends Activity {
 				legenda.setText("Localização: " + venues.getVenues().get(0).name);
 				TextView nome = (TextView) findViewById(R.id.name);
 				nome.setText("Nome do arquivo: " + photoLabel);
+				editText = (EditText) findViewById(R.id.editTextLocation);
 				button = (Button) findViewById(R.id.save);
 				button.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
 						try {
-							SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel);
-							Intent intent = new Intent(v.getContext(), MainActivity.class);
-							startActivity(intent);
-							finish();
-
+							if (editText.getText().toString().trim().length() != 0) {
+								String str = editText.getText().toString();
+								SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel, str);
+								Intent intent = new Intent(v.getContext(), MainActivity.class);
+								intent.putExtra("fromEditText", str);
+								startActivity(intent);
+								finish();
+							} else {
+								String str2 = "@123@";
+								SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel, str2);
+								Intent intent = new Intent(v.getContext(), MainActivity.class);
+								startActivity(intent);
+								finish();
+							}
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -234,22 +246,22 @@ public class PhotoActivity extends Activity {
 				});
 
 				button.setEnabled(true);
+
 			} else {
 				progressDialog.dismiss();
-			
+
 				AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
 				builder.setMessage("Problema de Conexão \nPor favor verifique sua conexão!");
 				builder.setNeutralButton("Voltar ao Menu Inicial", new DialogInterface.OnClickListener() {
-					
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//Toast.makeText(getApplicationContext(), "Problemas de conexão.\nPor favor verifique sua conexão!", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 						startActivity(intent);
 						finish();
 					}
 				});
-				
+
 				builder.show();
 			}
 		}

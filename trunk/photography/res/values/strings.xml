@@ -18,4 +18,5 @@
     <string name="gallery_activity_title">Galeria</string>
 	<string name="reload">Recarregar</string>
 	<string name="spinner_label">Escolha uma localização:</string>
+	<string name="edit_text_label">Ou Digite um Evento Específico:</string>
 </resources>
