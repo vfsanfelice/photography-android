@@ -23,7 +23,7 @@ public class GalleryActivity extends Activity {
 	public class AsyncTaskLoadFiles extends AsyncTask<Void, String, Void> {
 		File targetDirectory;
 
-		// ImageAdapter used on all methods less in onCreate
+		// ImageAdapter used on internal Class AsyncTaskLoadFiles
 		ImageAdapter imageAdapter;
 
 		public AsyncTaskLoadFiles(ImageAdapter adapter) {
@@ -36,6 +36,7 @@ public class GalleryActivity extends Activity {
 			String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 			Intent intent = getIntent();
 			String galleryName = intent.getStringExtra("galleryName");
+			// Check if user access gallery from GalleryListActivity
 			if (galleryName != null) {
 				setTitle(galleryName);
 				String galleryPath = (galleryName).replace(" ", "");
@@ -43,12 +44,13 @@ public class GalleryActivity extends Activity {
 			}
 
 			String markerGallery = intent.getStringExtra("markerGallery");
+			// Check if user access gallery from MapsActivity
 			if (markerGallery != null) {
 				setTitle(markerGallery);
 				String galleryPath = (markerGallery).replace(" ", "");
 				targetDirectory = new File(root_sd + File.separator + galleryPath);
 			}
-			imageAdapter.clear();
+			imageAdapter.clearListOfItems();
 
 			super.onPreExecute();
 		}
@@ -67,7 +69,7 @@ public class GalleryActivity extends Activity {
 
 		@Override
 		protected void onProgressUpdate(String... values) {
-			imageAdapter.add(values[0]);
+			imageAdapter.addItem(values[0]);
 			super.onProgressUpdate(values);
 		}
 
@@ -76,10 +78,9 @@ public class GalleryActivity extends Activity {
 			imageAdapter.notifyDataSetChanged();
 			super.onPostExecute(result);
 		}
-
 	}
 
-	ImageAdapter myImageAdapter;
+	ImageAdapter GalleryImageAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,9 +92,9 @@ public class GalleryActivity extends Activity {
 		setTitle(galleryName);
 
 		final GridView gridview = (GridView) findViewById(R.id.actualGridItens);
-		myImageAdapter = new ImageAdapter(this);
-		gridview.setAdapter(myImageAdapter);
-		myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(myImageAdapter);
+		GalleryImageAdapter = new ImageAdapter(this);
+		gridview.setAdapter(GalleryImageAdapter);
+		myAsyncTaskLoadFiles = new AsyncTaskLoadFiles(GalleryImageAdapter);
 		myAsyncTaskLoadFiles.execute();
 
 		gridview.setOnItemClickListener(myOnItemClickListener);

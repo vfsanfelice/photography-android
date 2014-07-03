@@ -50,7 +50,6 @@ public class PhotoActivity extends Activity {
 	private Spinner locationSpinner;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
 	static VenuesList venues;
-	// photo attributes
 	private static String photoLabel;
 	private static String photoPath;
 	static Double latitude;
@@ -68,16 +67,16 @@ public class PhotoActivity extends Activity {
 		button = (Button) findViewById(R.id.save);
 		button.setEnabled(false);
 
-		Intent iin = getIntent();
-		Bundle b = iin.getExtras();
+		Intent intent = getIntent();
+		Bundle b = intent.getExtras();
 
 		if (b != null) {
-			this.photoLabel = (String) b.get("photoLabel");
-			this.photoPath = (String) b.get("photoPath");
-			this.latitude = (Double) b.get("latitude");
-			this.longitude = (Double) b.get("longitude");
+			photoLabel = (String) b.get("photoLabel");
+			photoPath = (String) b.get("photoPath");
+			latitude = (Double) b.get("latitude");
+			longitude = (Double) b.get("longitude");
 		}
-		previewCapturedImage(this.photoPath);
+		previewCapturedImage(photoPath);
 	}
 
 	@Override
@@ -120,8 +119,21 @@ public class PhotoActivity extends Activity {
 
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.location), (TextView) findViewById(R.id.name),
-				(TextView) findViewById(R.id.actual_date), Double.toString(latitude), Double.toString(longitude), (EditText) findViewById(R.id.editTextLocation)));
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, /*
+																							 * (
+																							 * TextView
+																							 * )
+																							 * findViewById
+																							 * (
+																							 * R
+																							 * .
+																							 * id
+																							 * .
+																							 * location
+																							 * )
+																							 * ,
+																							 */(TextView) findViewById(R.id.name), (TextView) findViewById(R.id.actual_date),
+				Double.toString(latitude), Double.toString(longitude), (EditText) findViewById(R.id.editTextLocation)));
 	}
 
 	/**
@@ -202,20 +214,16 @@ public class PhotoActivity extends Activity {
 		protected void onPostExecute(String results) {
 			if (!results.contains("Unable to resolve")) {
 				progressDialog.dismiss();
-				// Mapping the results variable (JSON returned from WebService)
-				// with GSON into java classes
+				// Mapping the results variable (JSON returned from WebService) with GSON into Java classes
 				Gson gson = new Gson();
 				JsonElement jelement = new JsonParser().parse(results);
 				JsonObject jobj = jelement.getAsJsonObject();
 				jobj = jobj.getAsJsonObject("response");
 				venues = gson.fromJson(jobj.toString(), VenuesList.class);
-				// Populates the spinner with the values returnd by the venues
-				// WS and parsed by GSON
+				// Populates the spinner with the values returnd by the venues WS and parsed by GSON
 				populateLocationSpinner(venues);
-				// Escuta o valor selecionado no spinner
+				// Listen to the selected value on spinner
 				addListenerOnSpinnerItemSelection();
-				TextView legenda = (TextView) findViewById(R.id.location);
-				legenda.setText("Localização: " + venues.getVenues().get(0).name);
 				TextView nome = (TextView) findViewById(R.id.name);
 				nome.setText("Nome do arquivo: " + photoLabel);
 				editText = (EditText) findViewById(R.id.editTextLocation);
@@ -225,6 +233,7 @@ public class PhotoActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						try {
+							// If user typed event on screen
 							if (editText.getText().toString().trim().length() != 0) {
 								String str = editText.getText().toString();
 								SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel, str);
@@ -232,6 +241,7 @@ public class PhotoActivity extends Activity {
 								intent.putExtra("fromEditText", str);
 								startActivity(intent);
 								finish();
+							// If user selected a value on spinner
 							} else {
 								String str2 = "@123@";
 								SpinnerOnItemSelectedListener.savePicture(v, PhotoActivity.photoLabel, str2);
@@ -249,7 +259,8 @@ public class PhotoActivity extends Activity {
 
 			} else {
 				progressDialog.dismiss();
-
+				
+				// Create AlertDialog object to notify user about your connection status
 				AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
 				builder.setMessage("Problema de Conexão \nPor favor verifique sua conexão!");
 				builder.setNeutralButton("Voltar ao Menu Inicial", new DialogInterface.OnClickListener() {
@@ -271,5 +282,4 @@ public class PhotoActivity extends Activity {
 			super.onCancelled(result);
 		}
 	}
-
 }

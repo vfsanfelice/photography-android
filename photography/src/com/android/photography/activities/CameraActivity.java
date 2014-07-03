@@ -22,10 +22,11 @@ public class CameraActivity extends Activity {
 
 	private double latitude;
 	private double longitude;
-	private Uri fileUri; // file url to store image
+	private Uri fileUri;
 	static final String IMAGE_DIRECTORY_NAME = "Photography";
-	private static String photoLabel; // label takes the photo path
-	private static String photoLocation;
+	private static String photoLabel;
+
+	// private static String photoLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class CameraActivity extends Activity {
 	}
 
 	// capture image and callback calls preview activity
+	/**
+	 * 
+	 */
 	public void openCamera() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -59,14 +63,14 @@ public class CameraActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			// Successfully captured the image! Display it in image view using
-			// previewCapturedImage();
+			// Successfully captured the image! Display it in ImageView using
+			// PhotoActivity.previewCapturedImage();
 			GPSLocationListener gps = new GPSLocationListener(this);
 			latitude = gps.getLatitude();
 			longitude = gps.getLongitude();
 
 			Intent intent = new Intent(this, PhotoActivity.class);
-			intent.putExtra("photoLabel", this.photoLabel);
+			intent.putExtra("photoLabel", photoLabel);
 			intent.putExtra("photoPath", fileUri.getPath());
 			intent.putExtra("latitude", latitude);
 			intent.putExtra("longitude", longitude);
@@ -86,20 +90,25 @@ public class CameraActivity extends Activity {
 		}
 	}
 
-	// Names and creates the file that will receive the photo
+	/**
+	 * Method that creates the folder and the file that will receive the image
+	 * taken by the camera
+	 * 
+	 * @return File object containing the photo taken by user
+	 */
 	private File getOutputMediaFile() {
 		// External sdcard location
 		File mediaStorageDir = new File(Environment.getExternalStorageDirectory(), IMAGE_DIRECTORY_NAME);
 
-		// Create the storage directory if it does not exist
+		// Create the directory if it does not exist
 		if (!mediaStorageDir.exists()) {
 			if (!mediaStorageDir.mkdirs()) {
-				Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create " + IMAGE_DIRECTORY_NAME + " directory");
+				Log.d(IMAGE_DIRECTORY_NAME, "Ops! Failed on create " + IMAGE_DIRECTORY_NAME + " directory");
 				return null;
 			}
 		}
 
-		// Create first name for file
+		// Create default name for File with the picture (IMG_TIMESTAMP.JPG)
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 		File photo = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
 		photoLabel = photo.getName();
@@ -107,12 +116,16 @@ public class CameraActivity extends Activity {
 		return photo;
 	}
 
+	/**
+	 * Method that verifies if device has camera
+	 * 
+	 * @return true if has camera or false if has no camera
+	 */
 	private boolean isDeviceSupportCamera() {
+		// Check if the device has a camera
 		if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-			// Device has a camera
 			return true;
 		} else {
-			// Device has no camera
 			return false;
 		}
 	}

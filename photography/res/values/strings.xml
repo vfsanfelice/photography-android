@@ -6,17 +6,14 @@
     <string name="maps">Mapa</string>
     <string name="camera">Câmera</string>
     <string name="photography">Photography</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_main1">MainActivity</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="preview">Preview</string>
     <string name="title_activity_pictures">PicturesActivity</string>
     <string name="galleryName">galleryName</string>
     <string name="save">Salvar</string>
     <string name="gallery_activity_title">Galeria</string>
-	<string name="reload">Recarregar</string>
-	<string name="spinner_label">Escolha uma localização:</string>
-	<string name="edit_text_label">Ou Digite um Evento Específico:</string>
+    <string name="spinner_label">Escolha uma localização:</string>
+    <string name="edit_text_label">Ou digite um Evento Específico:</string>
+
 </resources>

@@ -1,12 +1,11 @@
 package com.android.photography.webservice;
 
-
 public class Venue {
-	
+
 	public String id;
-	
+
 	public String name;
-	
+
 	public Location location;
 
 	public String getId() {
@@ -32,6 +31,5 @@ public class Venue {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
-	
+
 }

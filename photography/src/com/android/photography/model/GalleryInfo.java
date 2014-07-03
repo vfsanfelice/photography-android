@@ -98,12 +98,13 @@ public class GalleryInfo {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		String stringdateformatter = dateFormat.format(date);
 		return "{id:" + id + 
-				", venueName: " + venueName + 
-				", latGPS:" + latGPS + 
-				", lngGPS:" + lngGPS + 
-				", latVenue: " + latVenue + 
-				", lngVenue: " + lngVenue + 
-				", fileName: " + fileName +
-				", date:" + stringdateformatter;
+			   ", venueName: " + venueName + 
+			   ", latGPS:" + latGPS + 
+			   ", lngGPS:" + lngGPS + 
+			   ", latVenue: " + latVenue + 
+			   ", lngVenue: " + lngVenue + 
+			   ", fileName: " + fileName + 
+			   ", date:"
+				+ stringdateformatter;
 	}
 }

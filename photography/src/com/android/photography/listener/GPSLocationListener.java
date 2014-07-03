@@ -18,8 +18,8 @@ import android.util.Log;
 public class GPSLocationListener extends Service implements LocationListener {
 
 	private final Context context;
-	boolean isGPSEnabled = false; // Flag de GPS
-	boolean isNetworkEnabled = false; // Flag de Internet
+	boolean isGPSEnabled = false;
+	boolean isNetworkEnabled = false;
 	boolean canGetLocation = false;
 	Location location;
 	double latitude;
@@ -30,7 +30,6 @@ public class GPSLocationListener extends Service implements LocationListener {
 	// The minimum time between updates in milliseconds
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
-	// Declarando um locationManager
 	protected LocationManager locationManager;
 
 	public GPSLocationListener(Context context) {
@@ -42,14 +41,14 @@ public class GPSLocationListener extends Service implements LocationListener {
 		try {
 			locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
-			// getting GPS status
+			// Get GPS status
 			isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-			// getting network status
+			// Get network status
 			isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 			if (!isGPSEnabled && !isNetworkEnabled) {
-				// no network provider is enabled
+				// No network provider is enabled
 			} else {
 				this.canGetLocation = true;
 				// First get location from Network Provider
@@ -64,7 +63,7 @@ public class GPSLocationListener extends Service implements LocationListener {
 						}
 					}
 				}
-				// if GPS Enabled get lat/long using GPS Services
+				// Ff GPS Enabled then get Lat/Lng using GPS Services
 				if (isGPSEnabled) {
 					if (location == null) {
 						locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
@@ -88,8 +87,7 @@ public class GPSLocationListener extends Service implements LocationListener {
 	}
 
 	/**
-	 * Stop using GPS listener Calling this function will stop using GPS in your
-	 * app
+	 * This function will stop using GPS in application
 	 * */
 	public void stopUsingGPS() {
 		if (locationManager != null) {
@@ -98,8 +96,9 @@ public class GPSLocationListener extends Service implements LocationListener {
 	}
 
 	/**
-	 * Function to get latitude
-	 * */
+	 * Get Latitude from GPS
+	 * @return latitude
+	 */
 	public double getLatitude() {
 		if (location != null) {
 			latitude = location.getLatitude();
@@ -108,8 +107,9 @@ public class GPSLocationListener extends Service implements LocationListener {
 	}
 
 	/**
-	 * Function to get longitude
-	 * */
+	 * Get Longitude from GPS
+	 * @return longitude
+	 */
 	public double getLongitude() {
 		if (location != null) {
 			longitude = location.getLongitude();
@@ -118,8 +118,7 @@ public class GPSLocationListener extends Service implements LocationListener {
 	}
 
 	/**
-	 * Function to check GPS/wifi enabled
-	 * 
+	 * Check if GPS or WI-FI is enabled
 	 * @return boolean
 	 * */
 	public boolean canGetLocation() {
@@ -127,19 +126,16 @@ public class GPSLocationListener extends Service implements LocationListener {
 	}
 
 	/**
-	 * Function to show settings alert dialog On pressing Settings button will
-	 * lauch Settings Options
+	 * Function to show settings alert dialog
+	 * PositiveButton return the Settings screen
+	 * NegativeButton closes the Application
 	 * */
 	public void showSettingsAlert() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-
-		// Mensagem do título
 		alertDialog.setTitle("GPS Desligado!");
-
-		// Mensagem principal
 		alertDialog.setMessage("Seu GPS está desligado. Ir para o menu de configuração? (Caso você clique cancelar, esta aplicação será fechada)");
 
-		// Ao apertar o botão de configurações
+		// On press Positive Button
 		alertDialog.setPositiveButton("Configurações", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -147,7 +143,7 @@ public class GPSLocationListener extends Service implements LocationListener {
 			}
 		});
 
-		// Ao apertar o botão cancelar
+		// On press Negative Button
 		alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
@@ -155,28 +151,32 @@ public class GPSLocationListener extends Service implements LocationListener {
 			}
 		});
 
-		// Mostrar a tela
 		alertDialog.show();
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

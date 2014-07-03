@@ -31,18 +31,10 @@ public class MainActivity extends Activity {
 		if (gps.canGetLocation()) {
 			latitude = gps.getLatitude();
 			longitude = gps.getLongitude();
-			// Toast.makeText(getApplicationContext(),
-			// "Sua localização atual é: \nLat: " + latitude + "\nLong: " +
-			// longitude, Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(), "Sua localização atual é: \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 		} else {
 			gps.showSettingsAlert();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 	@Override
@@ -69,8 +61,7 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Method that starts the GalleryListActivity when button clicked on Main
-	 * Screen
+	 * Method that starts the GalleryListActivity when button clicked on Main Screen
 	 */
 	public void openGallery() {
 		final Context context = this;

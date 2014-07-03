@@ -118,6 +118,7 @@ public class MapsActivity extends Activity {
 						latlng = new LatLng(Double.parseDouble(listOfGalleryInfo.get(i).getLatVenue()), Double.parseDouble(listOfGalleryInfo.get(i).getLngVenue()));
 						addMarker(latlng, listOfGalleryInfo.get(i).getVenueName());
 					} else {
+						//TODO Delete inconsistency from Database and from Folders to avoid wrong markers 
 						//db.delete(listOfGalleryInfo.get(i));
 					}
 				}
