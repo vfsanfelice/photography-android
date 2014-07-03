@@ -119,20 +119,7 @@ public class PhotoActivity extends Activity {
 
 	public void addListenerOnSpinnerItemSelection() {
 		locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, /*
-																							 * (
-																							 * TextView
-																							 * )
-																							 * findViewById
-																							 * (
-																							 * R
-																							 * .
-																							 * id
-																							 * .
-																							 * location
-																							 * )
-																							 * ,
-																							 */(TextView) findViewById(R.id.name), (TextView) findViewById(R.id.actual_date),
+		locationSpinner.setOnItemSelectedListener(new SpinnerOnItemSelectedListener(venues, (TextView) findViewById(R.id.name), (TextView) findViewById(R.id.actual_date),
 				Double.toString(latitude), Double.toString(longitude), (EditText) findViewById(R.id.editTextLocation)));
 	}
 
