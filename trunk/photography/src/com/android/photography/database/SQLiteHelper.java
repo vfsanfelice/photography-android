@@ -16,9 +16,7 @@ import android.util.Log;
 import com.android.photography.model.GalleryInfo;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
-	//Database version
-	private static final int DATABASE_VERSION = 11;
-	//Database name
+	private static final int DATABASE_VERSION = 12;
 	private static final String DATABASE_NAME = "PhotographyDB";
 	
 	public SQLiteHelper(Context context){
@@ -27,7 +25,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		//SQL to create PictureInfo table
+		// SQL to create GalleryInfo Table
 		String CREATE_GALLERYINFO_TABLE = "CREATE TABLE galleryinfo ( "+
 										  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 										  "venue_name TEXT, " +
@@ -38,23 +36,22 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 										  "file_name TEXT, " +
 										  "date TEXT)";
 		
-		//Criação tabela galleryinfo
 		db.execSQL(CREATE_GALLERYINFO_TABLE);
 	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//Dropa a tabela GalleryInfo se já existe
+		// Drop table GalleryInfo if already exists
 		db.execSQL("DROP TABLE IF EXISTS galleryinfo");
 		
-		// Remove comment from line below to reset sequence in database
+		// Change DATABASE_VERSION and remove comment from line below to reset sequence in database 
 		//db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_GALLERYINFO + "'");
 		
-		//Recria a tabela
+		// Recreate the table
 		this.onCreate(db);
 	}
 	
-	// Variáveis de auxílio ao banco de dados
+	// Auxiliary variables
 	private static final String TABLE_GALLERYINFO = "galleryinfo";
 	private static final String FIELD_ID = "id"; 
 	private static final String FIELD_VENUENAME = "venue_name";
@@ -66,8 +63,9 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	private static final String FIELD_DATE = "date";
 	private static final String[] COLUMNS = {FIELD_ID, FIELD_VENUENAME, FIELD_LATGPS, FIELD_LNGGPS, FIELD_LATVENUE, FIELD_LNGVENUE, FIELD_FILENAME, FIELD_DATE };
 	
-	/*
-	 * Método de inserção de registro no banco de dados
+	/**
+	 * Method to insert one record in GalleryInfo Table
+	 * @param gi
 	 */
 	public void add(GalleryInfo gi){
 		Log.d("add", "add register on database");
@@ -79,15 +77,15 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		cv.put(FIELD_LATVENUE, gi.getLatVenue());
 		cv.put(FIELD_LNGVENUE, gi.getLngVenue());
 		cv.put(FIELD_FILENAME, gi.getFileName());
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		cv.put(FIELD_DATE, dateFormat.format(gi.getDate()));
 		db.insert(TABLE_GALLERYINFO, null, cv);
 		db.close();
 	}
 	
-	/*
-	 * Método de remoção de registro no banco de dados
+	/**
+	 * Method to remove one record in GalleryInfo Table based on ID
+	 * @param gi
 	 */
 	public void delete(GalleryInfo gi){
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -95,8 +93,9 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		db.close();
 	}
 	
-	/*
-	 * Método de listagem de todos registros do banco de dados
+	/**
+	 * Method
+	 * @return List<GalleryInfo> containing all records in GalleryInfo Table
 	 */
 	public List<GalleryInfo> getAllGalleryInfo(){
 		List<GalleryInfo> list = new ArrayList<GalleryInfo>();
@@ -119,13 +118,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 					gi.setLatVenue(cursor.getString(4));
 					gi.setLngVenue(cursor.getString(5));
 					gi.setFileName(cursor.getString(6));
-					//gi.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(cursor.getString((6))));
 					gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((7))));
 					list.add(gi);
 				} while (cursor.moveToNext());
 			}
 		} catch (ParseException e) {
-			Log.e("error on parse", "error on parse");
+			Log.e("Error on parse SQL", "Error on parse getAllGalleryInfo");
 		}
 		
 		for (GalleryInfo galleryInfo : list) {
@@ -137,7 +135,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	public GalleryInfo getPhotoInfo(String fileName){
 		SQLiteDatabase db = this.getWritableDatabase();
-		Log.d("vai", getAllGalleryInfo().toString());
+		Log.d("getAllGalleryInfoDB", getAllGalleryInfo().toString());
 		String query = "SELECT * FROM " + TABLE_GALLERYINFO + " WHERE FILE_NAME = ?";
 		Cursor cursor = db.rawQuery(query, new String[] { fileName });
 		
@@ -155,7 +153,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 				gi.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(cursor.getString((7))));
 			}
 		} catch (ParseException e) {
-			Log.e("error on parse", "error on parse");
+			Log.e("Error on parse SQL", "Error on parse getPhotoInfo");
 		}
 		return gi;
 	}

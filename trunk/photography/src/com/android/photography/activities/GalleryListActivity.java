@@ -44,6 +44,7 @@ public class GalleryListActivity extends Activity {
 				listOfGallery.add(galleryName);
 			}
 		}
+
 		arrayOfGallery = listOfGallery.toArray(new String[listOfGallery.size()]);
 
 		if (arrayOfGallery.length > 0) {
@@ -72,6 +73,9 @@ public class GalleryListActivity extends Activity {
 		startActivity(i);
 	}
 
+	/**
+	 * Method that clear all unsaved pictures from /Photography root directory
+	 */
 	public void clearUnsavedPictures() {
 		String root_sd = Environment.getExternalStorageDirectory() + File.separator + IMAGE_DIRECTORY_NAME;
 		file = new File(root_sd);

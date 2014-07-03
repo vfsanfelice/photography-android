@@ -3,7 +3,7 @@ package com.android.photography.webservice;
 public class Location {
 
 	public Double lat;
-	
+
 	public Double lng;
 
 	public Double getLat() {
