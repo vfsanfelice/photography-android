@@ -16,7 +16,7 @@ import android.util.Log;
 import com.android.photography.model.GalleryInfo;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
-	private static final int DATABASE_VERSION = 13;
+	private static final int DATABASE_VERSION = 20;
 	private static final String DATABASE_NAME = "PhotographyDB";
 	
 	public SQLiteHelper(Context context){
@@ -45,7 +45,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		db.execSQL("DROP TABLE IF EXISTS galleryinfo");
 		
 		// Change DATABASE_VERSION and remove comment from line below to reset sequence in database 
-		//db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_GALLERYINFO + "'");
+		db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_GALLERYINFO + "'");
 		
 		// Recreate the table
 		this.onCreate(db);
