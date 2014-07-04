@@ -102,8 +102,21 @@ public class SpinnerOnItemSelectedListener implements OnItemSelectedListener {
 		}
 		gi.setLatGPS(latitudeGPS);
 		gi.setLngGPS(longitudeGPS);
-		gi.setLatVenue(Double.toString(currentVenue.getLocation().getLat()));
-		gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
+		
+		if (eventLabel.equals("@123@")) {
+			gi.setLatVenue(Double.toString(currentVenue.getLocation().getLat()));
+			gi.setLngVenue(Double.toString(currentVenue.getLocation().getLng()));
+		} else {
+			Double dLat = Double.parseDouble(latitudeGPS);
+			Double dLng = Double.parseDouble(longitudeGPS);
+			dLat = dLat + 0.00005;
+			dLng = dLng + 0.00005;
+			String sLat = Double.toString(dLat);
+			String sLng = Double.toString(dLng);
+			gi.setLatVenue(sLat);
+			gi.setLngVenue(sLng);
+		}
+		
 		gi.setFileName(fileName);
 		gi.setDate(date);
 		sqlhelper.add(gi);
