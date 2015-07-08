@@ -1,0 +1,1 @@
+Application to manage pictures automatically at android by geolocation
